@@ -10,9 +10,10 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
+import com.wise.www.tyjcapp.databinding.ActivityLoginBinding;
 import com.wise.www.tyjcapp.main.MainActivity;
 import com.wise.www.tyjcapp.R;
-import com.wise.www.tyjcapp.databinding.ActivityLoginBinding;
+//import com.wise.www.tyjcapp.databinding.ActivityLoginBinding;
 import com.wise.www.tyjcapp.login.presenter.LoginPresenterCompl;
 import com.wise.www.tyjcapp.login.view.ILoginView;
 
