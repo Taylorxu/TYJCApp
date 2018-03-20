@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
-import com.wise.www.tyjcapp.MainActivity;
+import com.wise.www.tyjcapp.main.MainActivity;
 import com.wise.www.tyjcapp.R;
 import com.wise.www.tyjcapp.databinding.ActivityLoginBinding;
 import com.wise.www.tyjcapp.login.presenter.LoginPresenterCompl;
@@ -27,7 +30,19 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         super.onCreate(savedInstanceState);
         loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         presenterCompl = new LoginPresenterCompl(this);
+        loginBinding.password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
+                    attemptLogin();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
     }
+
 
     @Override
     public void onLoginResult(Boolean result, int code) {
@@ -60,8 +75,11 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     public void onClick(View view) {
         presenterCompl.setViewEnable(false);
         presenterCompl.setProgressBarVisiblity(View.VISIBLE);
-        presenterCompl.doLogin(loginBinding.account.getText().toString(), loginBinding.password.getText().toString());
+        attemptLogin();
     }
 
+    private void attemptLogin() {
+        presenterCompl.doLogin(loginBinding.account.getText().toString(), loginBinding.password.getText().toString());
+    }
 
 }
