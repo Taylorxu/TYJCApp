@@ -7,4 +7,5 @@ package com.wise.www.tyjcapp.login.presenter;
 public interface ILoginPresenter {
     void doLogin(String name, String passwd);
     void setProgressBarVisiblity(int visiblity);
+    void setViewEnable(boolean b);
 }

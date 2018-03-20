@@ -101,7 +101,9 @@
                     android:background="@drawable/shape_corners_3_white"
                     android:text="@string/action_sign_in"
                     android:textColor="@color/color_350d"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:onClick="onClick"
+                    />
 
             </LinearLayout>
 

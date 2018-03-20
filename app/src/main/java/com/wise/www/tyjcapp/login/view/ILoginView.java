@@ -9,4 +9,6 @@ public interface ILoginView {
     public void onLoginResult(Boolean result, int code);
 
     public void onSetProgressBarVisibility(int visibility);
+
+    void setViewEnable(boolean b);
 }
