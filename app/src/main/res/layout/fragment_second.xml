@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-<!--top area-->
+            <!--top area-->
             <FrameLayout
                 android:id="@+id/bar"
                 android:layout_width="match_parent"
@@ -24,16 +24,42 @@
 
             </FrameLayout>
 
-            <android.support.v4.widget.SwipeRefreshLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/refresh_layout"
+                android:layout_height="50dp"
+                android:background="@color/colorPrimary"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_marginTop="15dp"
                 >
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|left"
+                    android:text="@string/str_top_member"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/str_top_exchange"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
+
+            </FrameLayout>
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/content_announce_list"
-                    />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             </android.support.v4.widget.SwipeRefreshLayout>
 
