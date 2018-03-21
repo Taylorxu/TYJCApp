@@ -1,7 +1,6 @@
 package com.wise.www.tyjcapp.main;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,21 +8,16 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.wise.www.tyjcapp.BR;
 import com.wise.www.tyjcapp.R;
-import com.wise.www.tyjcapp.adapter.XAdapter;
-import com.wise.www.tyjcapp.adapter.XViewHolder;
+import com.wise.www.basestone.view.adapter.XAdapter;
+import com.wise.www.basestone.view.adapter.XViewHolder;
 import com.wise.www.tyjcapp.bean.SystemCaseBean;
 import com.wise.www.tyjcapp.databinding.FragmentFirstBinding;
 import com.wise.www.tyjcapp.databinding.ItemFirstFragmentBinding;

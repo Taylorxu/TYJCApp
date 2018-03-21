@@ -15,10 +15,9 @@ import android.view.ViewGroup;
 
 import com.wise.www.tyjcapp.BR;
 import com.wise.www.tyjcapp.R;
-import com.wise.www.tyjcapp.adapter.XAdapter;
-import com.wise.www.tyjcapp.adapter.XViewHolder;
+import com.wise.www.basestone.view.adapter.XAdapter;
+import com.wise.www.basestone.view.adapter.XViewHolder;
 import com.wise.www.tyjcapp.bean.MemberTradeBean;
-import com.wise.www.tyjcapp.bean.SystemCaseBean;
 import com.wise.www.tyjcapp.databinding.FragmentSecondBinding;
 import com.wise.www.tyjcapp.databinding.ItemMemberTradeTopBinding;
 
