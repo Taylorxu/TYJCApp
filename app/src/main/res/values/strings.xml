@@ -22,4 +22,7 @@
     <string name="str_service_set">设置服务器地址</string>
     <string name="str_service_name">服务器地址:</string>
     <string name="str_save">保存</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.wise.www.tyjcapp.main;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,14 +13,22 @@ import android.view.ViewGroup;
 
 import com.wise.www.tyjcapp.R;
 import com.wise.www.tyjcapp.databinding.FragmentThirdBinding;
-
+import com.wise.www.tyjcapp.main.ortherPage.WarningPageAdapter;
 
 
 public class ThirdFragment extends Fragment implements View.OnClickListener {
     FragmentThirdBinding binding;
+    private String[] pageTitle;
+
     public static ThirdFragment newInstance() {
         ThirdFragment secondFragment = new ThirdFragment();
         return secondFragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        pageTitle = new String[]{getResources().getString(R.string.str_warning_list), getResources().getString(R.string.str_warning_history)};
     }
 
     @Override
@@ -31,8 +40,8 @@ public class ThirdFragment extends Fragment implements View.OnClickListener {
 
     private void initView() {
         binding.title.setText(R.string.str_warning_title);
-
-
+        binding.contentVp.setAdapter(new WarningPageAdapter(getFragmentManager(), pageTitle));
+        binding.warningTabL.setupWithViewPager(binding.contentVp);
     }
 
     public void onClick(View view) {
