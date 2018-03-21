@@ -58,7 +58,9 @@ public class WarningListFragment extends Fragment {
     SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            binding.container.setState(PagingRecyclerView.State.Refresh);
+//            binding.container.setState(PagingRecyclerView.State.Refresh);
+            binding.refreshLayout.setRefreshing(true);
+            createData();
         }
     };
     PagingRecyclerView.OnLoadMoreListener onLoadMoreListener = new PagingRecyclerView.OnLoadMoreListener() {
@@ -77,6 +79,7 @@ public class WarningListFragment extends Fragment {
             warningBean.setWarnSovledDate("");
             list.add(warningBean);
         }
+        binding.refreshLayout.setRefreshing(false);
         binding.container.setState(PagingRecyclerView.State.NoMore);
     }
 

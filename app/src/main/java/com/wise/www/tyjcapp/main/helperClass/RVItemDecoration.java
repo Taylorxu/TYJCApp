@@ -9,10 +9,11 @@ import android.view.View;
 import com.wise.www.tyjcapp.R;
 
 /**
+ * recycleview item分割线
  * Created by Administrator on 2018/3/21.
  */
 public class RVItemDecoration extends RecyclerView.ItemDecoration {
-    public RVItemDecoration(int space,int color) {
+    public RVItemDecoration(int space, int color) {
         this.space = space;
         this.paint = new Paint();
         paint.setAntiAlias(true);
@@ -24,7 +25,7 @@ public class RVItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        outRect.right = space;
+        outRect.top = space;
     }
 
     @Override
