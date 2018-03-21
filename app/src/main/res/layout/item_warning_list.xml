@@ -7,6 +7,10 @@
         <variable
             name="data"
             type="com.wise.www.tyjcapp.bean.WarningBean" />
+
+        <variable
+            name="view"
+            type="android.view.View" />
     </data>
 
     <LinearLayout
@@ -14,16 +18,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="@color/color_line" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:orientation="vertical">
 
             <FrameLayout
@@ -36,7 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_vertical"
-                    android:text="@string/str_warning_title"
+                    android:text="@string/str_warning_content"
                     android:textColor="@color/color_4d"
                     android:textSize="16sp" />
 
@@ -45,9 +45,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
+                    android:text="@{data.warnDate}"
                     android:textColor="@color/text_color_jizu_name"
-                    android:textSize="13sp"
-                    />
+                    android:textSize="13sp" />
 
 
             </FrameLayout>
@@ -62,21 +62,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:gravity="left|center_vertical"
+                android:text="@{data.warnContent}"
                 android:textColor="@color/color_4d"
                 android:textSize="15sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/color_line" />
+                android:background="@color/color_line"
+                android:visibility="@{data.shuoldShow()==0?view.VISIBLE:view.GONE}" />
 
             <TextView
                 android:id="@+id/announce_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top"
+                android:gravity="right|center_vertical"
+                android:text="@{data.warnSovledDate}"
                 android:textColor="@color/text_color_jizu_name"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="@{data.shuoldShow()==0?view.VISIBLE:view.GONE}" />
         </LinearLayout>
     </LinearLayout>
 </layout>

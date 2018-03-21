@@ -33,4 +33,11 @@ public class WarningBean {
     public void setWarnSovledDate(String warnSovledDate) {
         this.warnSovledDate = warnSovledDate;
     }
+
+    public int shuoldShow() {
+        if (warnSovledDate.isEmpty()) {
+            return 8;
+        }
+        return 0;
+    }
 }

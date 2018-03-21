@@ -15,6 +15,7 @@
     <string name="str_top_member">成员行</string>
     <string name="str_top_exchange">交易量</string>
     <string name="str_warning_title">告警</string>
+    <string name="str_warning_content">告警内容:</string>
     <string name="str_warning_list">告警列表</string>
     <string name="str_warning_history">历史告警</string>
     <string name="str_seeting">设置</string>
