@@ -40,7 +40,7 @@ public class ThirdFragment extends Fragment implements View.OnClickListener {
 
     private void initView() {
         binding.title.setText(R.string.str_warning_title);
-        binding.contentVp.setAdapter(new WarningPageAdapter(getFragmentManager(), pageTitle));
+        binding.contentVp.setAdapter(new WarningPageAdapter(getChildFragmentManager(), pageTitle));
         binding.warningTabL.setupWithViewPager(binding.contentVp);
     }
 
