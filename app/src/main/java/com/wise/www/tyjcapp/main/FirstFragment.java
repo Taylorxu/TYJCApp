@@ -4,9 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -51,11 +55,11 @@ public class FirstFragment extends Fragment {
             holder.getBinding().textValue.setText(getItemData(position).getValue());
             holder.getBinding().waveLoadingView.setCenterTitle(getItemData(position).getPercent() + "%");
             holder.getBinding().waveLoadingView.setProgressValue(getItemData(position).getPercent());
-            holder.getBinding().waveLoadingView.setCenterTitleColor(Color.WHITE);
-            holder.getBinding().waveLoadingView.setBorderColor(R.color.color_4d);
+            holder.getBinding().waveLoadingView.setCenterTitleColor(Color.parseColor("#4d4d4d"));
+            holder.getBinding().waveLoadingView.setBorderColor(R.color.color_line);
             holder.getBinding().waveLoadingView.setBorderWidth(1f);
-            holder.getBinding().waveLoadingView.setWaveColor(Color.YELLOW);
-            holder.getBinding().waveLoadingView.setWaveBgColor(Color.CYAN);
+            holder.getBinding().waveLoadingView.setWaveColor(Color.rgb(255, 198, 0));
+            holder.getBinding().waveLoadingView.setWaveBgColor(Color.parseColor("#62FFC600"));
 
 
         }
@@ -67,18 +71,29 @@ public class FirstFragment extends Fragment {
     private void initListView() {
 
         createData();
-        StaggeredGridLayoutManager layoutmanager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        GridLayoutManager layoutmanager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         fragmentBinding.contentCase.setLayoutManager(layoutmanager);
         fragmentBinding.contentCase.setAdapter(xAdapter);
+        fragmentBinding.contentCase.addItemDecoration(new RecyclerView.ItemDecoration() {
+            private int space = 15;
+
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                outRect.top = space;
+                if (parent.getChildLayoutPosition(view) % 2 == 0) {
+                    outRect.right = 2;
+                }
+            }
+        });
         xAdapter.setList(list);
     }
 
     private void createData() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 21; i++) {
             SystemCaseBean systemCaseBean = new SystemCaseBean();
             systemCaseBean.setName("网银系统" + i);
             systemCaseBean.setValue(2000 + i + "");
-            systemCaseBean.setPercent(i + "");
+            systemCaseBean.setPercent(20 + i + "");
             list.add(systemCaseBean);
         }
     }
