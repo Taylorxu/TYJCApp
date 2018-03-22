@@ -3,10 +3,20 @@ package com.wise.www.tyjcapp.login.presenter;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.wise.www.basestone.view.helper.EEMsgToastHelper;
+import com.wise.www.basestone.view.network.FlatMapResponse;
+import com.wise.www.basestone.view.network.FlatMapTopRes;
+import com.wise.www.basestone.view.network.ResultModel;
 import com.wise.www.tyjcapp.login.LoginActivity;
-import com.wise.www.tyjcapp.login.model.IUser;
-import com.wise.www.tyjcapp.login.model.UserModel;
 import com.wise.www.tyjcapp.login.view.ILoginView;
+import com.wise.www.tyjcapp.main.request.ApiService;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2018/3/20.
@@ -15,26 +25,40 @@ import com.wise.www.tyjcapp.login.view.ILoginView;
 public class LoginPresenterCompl implements ILoginPresenter {
     ILoginView iLoginView;
     Handler handler;
-    IUser iUser;
+
     public LoginPresenterCompl(LoginActivity loginActivity) {
         iLoginView = loginActivity;
-        initUser();
         handler = new Handler(Looper.getMainLooper());
     }
 
 
     @Override
     public void doLogin(String name, String passwd) {
-        Boolean isLoginSuccess = true;
-        final int code = iUser.checkUserValidity(name,passwd);
-        if (code!=0) isLoginSuccess = false;
-        final Boolean result = isLoginSuccess;
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                iLoginView.onLoginResult(result, code);
-            }
-        }, 5000);
+        Map<String, Object> map = new HashMap<>();
+        map.put("accountNum", name);
+        map.put("password", passwd);
+        ApiService.Creator.get().userLoginServlet("UserLoginServlet", map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new FlatMapResponse<ResultModel<Void>>())
+                .flatMap(new FlatMapTopRes<Void>())
+                .subscribe(new Subscriber<Void>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        EEMsgToastHelper.newInstance().selectWitch(e.getCause().getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Void aVoid) {
+                        iLoginView.onLoginResult(true);
+                    }
+                });
     }
 
     @Override
@@ -48,7 +72,4 @@ public class LoginPresenterCompl implements ILoginPresenter {
     }
 
 
-    private void initUser() {
-         iUser = new UserModel("100", "100");
-    }
 }

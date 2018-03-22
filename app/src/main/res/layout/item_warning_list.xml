@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.wise.www.tyjcapp.bean.WarningBean" />
+            type="com.wise.www.tyjcapp.bean.AlarmSystemBean" />
 
         <variable
             name="view"
@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
-                    android:text="@{data.warnDate}"
+                    android:text="@{data.alarmTime}"
                     android:textColor="@color/text_color_jizu_name"
                     android:textSize="13sp" />
 
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:gravity="left|center_vertical"
-                android:text="@{data.warnContent}"
+                android:text="@{data.alarmContent}"
                 android:textColor="@color/color_4d"
                 android:textSize="15sp" />
 
@@ -77,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right|center_vertical"
-                android:text="@{data.warnSovledDate}"
+                android:text='@{"恢复时间:"+data.recoveryTime}'
                 android:textColor="@color/text_color_jizu_name"
                 android:textSize="14sp"
                 android:visibility="@{data.shuoldShow()==0?view.VISIBLE:view.GONE}" />

@@ -6,7 +6,7 @@ package com.wise.www.tyjcapp.login.view;
 
 public interface ILoginView {
 
-    public void onLoginResult(Boolean result, int code);
+    public void onLoginResult(Boolean result );
 
     public void onSetProgressBarVisibility(int visibility);
 

@@ -13,25 +13,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wise.www.basestone.view.network.FlatMapResponse;
+import com.wise.www.basestone.view.network.FlatMapTopRes;
+import com.wise.www.basestone.view.network.ResultModel;
+import com.wise.www.basestone.view.view.PagingRecyclerView;
 import com.wise.www.tyjcapp.BR;
 import com.wise.www.tyjcapp.R;
 import com.wise.www.basestone.view.adapter.XAdapter;
 import com.wise.www.basestone.view.adapter.XViewHolder;
+import com.wise.www.tyjcapp.bean.AlarmSystemBean;
 import com.wise.www.tyjcapp.bean.MemberTradeBean;
 import com.wise.www.tyjcapp.databinding.FragmentSecondBinding;
 import com.wise.www.tyjcapp.databinding.ItemMemberTradeTopBinding;
+import com.wise.www.tyjcapp.main.request.ApiService;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 public class SecondFragment extends Fragment {
     FragmentSecondBinding binding;
-    private ArrayList<MemberTradeBean> list;
     private int[] colorspan;
 
-    public SecondFragment() {
-
-    }
 
     public static SecondFragment newInstance() {
         SecondFragment secondFragment = new SecondFragment();
@@ -45,8 +52,7 @@ public class SecondFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_second, container, false);
         initView();
         return binding.getRoot();
@@ -67,14 +73,15 @@ public class SecondFragment extends Fragment {
             if (position < 9) No = "0" + No;
             holder.getBinding().textNo.setText(No.toString());
 
-            holder.getBinding().textMemberName.setText(getItemData(position).getMembername());
-            holder.getBinding().textTradeNo.setText(getItemData(position).getTradeNumber());
+            holder.getBinding().textMemberName.setText(getItemData(position).getTradeBankName());
+            holder.getBinding().textTradeNo.setText(getItemData(position).getTradeVolume());
         }
     };
 
     @SuppressLint("ResourceAsColor")
     private void initView() {
-        crea();
+        binding.refreshLayout.setRefreshing(true);
+        createData();
         binding.title.setText(R.string.str_top);
         binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         binding.refreshLayout.setOnRefreshListener(refreshListener);
@@ -82,26 +89,41 @@ public class SecondFragment extends Fragment {
         binding.contentAnnounceList.setLayoutManager(layoutManager);
         binding.contentAnnounceList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         binding.contentAnnounceList.setAdapter(adapter);
-        adapter.setList(list);
 
     }
 
-    private void crea() {
-        binding.refreshLayout.setRefreshing(true);
-        list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            MemberTradeBean tradeBean = new MemberTradeBean();
-            tradeBean.setMembername("网银系统啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊" + i);
-            tradeBean.setTradeNumber("10000" + i);
-            list.add(tradeBean);
-        }
-        binding.refreshLayout.setRefreshing(false);
+    private void createData() {
+
+        ApiService.Creator.get().tradeBankTopServlet()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new FlatMapResponse<ResultModel<List<MemberTradeBean>>>())
+                .flatMap(new FlatMapTopRes<List<MemberTradeBean>>())
+                .subscribe(new Subscriber<List<MemberTradeBean>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        binding.refreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onNext(List<MemberTradeBean> list) {
+                        adapter.setList(list);
+                        binding.refreshLayout.setRefreshing(false);
+
+                    }
+                });
     }
 
     SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            crea();
+            createData();
         }
     };
 

@@ -5,22 +5,31 @@ package com.wise.www.tyjcapp.bean;
  */
 
 public class MemberTradeBean {
-    String membername;
-    String tradeNumber;
+    private String TradeBankName;
+    private String TradeBankCode;
+    private String TradeVolume;
 
-    public String getMembername() {
-        return membername;
+    public String getTradeBankName() {
+        return TradeBankName;
     }
 
-    public void setMembername(String membername) {
-        this.membername = membername;
+    public void setTradeBankName(String TradeBankName) {
+        this.TradeBankName = TradeBankName;
     }
 
-    public String getTradeNumber() {
-        return tradeNumber;
+    public String getTradeBankCode() {
+        return TradeBankCode;
     }
 
-    public void setTradeNumber(String tradeNumber) {
-        this.tradeNumber = tradeNumber;
+    public void setTradeBankCode(String TradeBankCode) {
+        this.TradeBankCode = TradeBankCode;
+    }
+
+    public String getTradeVolume() {
+        return TradeVolume;
+    }
+
+    public void setTradeVolume(String TradeVolume) {
+        this.TradeVolume = TradeVolume;
     }
 }

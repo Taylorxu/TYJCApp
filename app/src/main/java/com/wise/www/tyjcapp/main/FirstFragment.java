@@ -1,12 +1,15 @@
 package com.wise.www.tyjcapp.main;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Message;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,21 +17,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wise.www.basestone.view.network.FlatMapResponse;
+import com.wise.www.basestone.view.network.FlatMapTopRes;
+import com.wise.www.basestone.view.network.ResultModel;
 import com.wise.www.tyjcapp.BR;
 import com.wise.www.tyjcapp.R;
 import com.wise.www.basestone.view.adapter.XAdapter;
 import com.wise.www.basestone.view.adapter.XViewHolder;
 import com.wise.www.tyjcapp.bean.SystemCaseBean;
+import com.wise.www.tyjcapp.bean.SystemWorkingCaseBean;
 import com.wise.www.tyjcapp.databinding.FragmentFirstBinding;
 import com.wise.www.tyjcapp.databinding.ItemFirstFragmentBinding;
+import com.wise.www.tyjcapp.main.request.ApiService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class FirstFragment extends Fragment {
+import static com.wise.www.tyjcapp.main.MainActivity.PARAMKEY;
+
+
+public class FirstFragment extends Fragment implements View.OnClickListener {
     FragmentFirstBinding fragmentBinding;
-    private List<SystemCaseBean> list;
+    List<SystemWorkingCaseBean> caseBeanList;
 
     public static FirstFragment newInstance() {
         FirstFragment firstFragment = new FirstFragment();
@@ -36,29 +50,41 @@ public class FirstFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        caseBeanList = getActivity().getIntent().getParcelableArrayListExtra(PARAMKEY);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_first, container, false);
         fragmentBinding.title.setText(R.string.str_system_case);
+        fragmentBinding.textBankSearch.setOnClickListener(this);
         initListView();
         return fragmentBinding.getRoot();
     }
 
-    XAdapter<SystemCaseBean, ItemFirstFragmentBinding> xAdapter = new XAdapter.SimpleAdapter<SystemCaseBean, ItemFirstFragmentBinding>(0, R.layout.item_first_fragment) {
+    XAdapter<SystemWorkingCaseBean, ItemFirstFragmentBinding> xAdapter = new XAdapter.SimpleAdapter<SystemWorkingCaseBean, ItemFirstFragmentBinding>(0, R.layout.item_first_fragment) {
         @SuppressLint("ResourceAsColor")
         @Override
-        public void onBindViewHolder(XViewHolder<SystemCaseBean, ItemFirstFragmentBinding> holder, int position) {
+        public void onBindViewHolder(XViewHolder<SystemWorkingCaseBean, ItemFirstFragmentBinding> holder, int position) {
             super.onBindViewHolder(holder, position);
-            holder.getBinding().textName.setText(getItemData(position).getName());
-            holder.getBinding().textValue.setText(getItemData(position).getValue());
-            holder.getBinding().textValue.setTextColor(Color.rgb(255, 198, 0));
-            holder.getBinding().waveLoadingView.setProgressValue(getItemData(position).getPercent());
-            holder.getBinding().waveLoadingView.setCenterTitle(getItemData(position).getPercent() + "%");
+            SystemWorkingCaseBean bean = getItemData(position);
+            holder.getBinding().textName.setText(bean.getTradeSysName());
+            holder.getBinding().textValue.setText(String.valueOf(bean.getTradeSysVolume()));
+            if (bean.getTradeSysColour().indexOf("#") > -1)
+                holder.getBinding().textValue.setTextColor(Color.parseColor(bean.getTradeSysColour().toUpperCase()));
+            holder.getBinding().waveLoadingView.setProgressValue(60);
+            holder.getBinding().waveLoadingView.setCenterTitle(bean.getTradeSysColour());
             holder.getBinding().waveLoadingView.setCenterTitleColor(Color.WHITE);
             holder.getBinding().waveLoadingView.setCenterTitleSize(12f);
-            holder.getBinding().waveLoadingView.setBorderColor(Color.parseColor("#62FFC600"));
+            if (bean.getTradeSysColour().indexOf("#") > -1)
+                holder.getBinding().waveLoadingView.setBorderColor(Color.parseColor(bean.getTradeSysColour().toUpperCase()));
             holder.getBinding().waveLoadingView.setBorderWidth(0.5f);
-            holder.getBinding().waveLoadingView.setWaveColor(Color.rgb(255, 198, 0));
-            holder.getBinding().waveLoadingView.setWaveBgColor(Color.parseColor("#62FFC600"));
+            if (bean.getTradeSysColour().indexOf("#") > -1)
+                holder.getBinding().waveLoadingView.setWaveColor(Color.parseColor(bean.getTradeSysColour().toUpperCase()));
+            /*if (bean.getTradeSysColour().indexOf("#") > -1)
+                holder.getBinding().waveLoadingView.setWaveBgColor(Color.parseColor(bean.getTradeSysColour().toUpperCase()));*/
 
 
         }
@@ -74,18 +100,49 @@ public class FirstFragment extends Fragment {
         fragmentBinding.contentCase.setLayoutManager(layoutmanager);
         fragmentBinding.contentCase.setAdapter(xAdapter);
         fragmentBinding.contentCase.addItemDecoration(new RVItemDecoration(4, 20));
-        xAdapter.setList(list);
+
     }
 
+    /**
+     * 默认-1 全部。 当在搜索界面选好银行后，跳转此界面 根据此条件查询
+     */
+    String tradeBankCode = "-1";
+
     private void createData() {
-        list = new ArrayList<>();
-        for (int i = 0; i < 21; i++) {
-            SystemCaseBean systemCaseBean = new SystemCaseBean();
-            systemCaseBean.setName("网银系统" + i);
-            systemCaseBean.setValue(2000 + i + "");
-            systemCaseBean.setPercent(20 + i + "");
-            list.add(systemCaseBean);
-        }
+        ApiService.Creator.get().systemStatusServlet(tradeBankCode)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new FlatMapResponse<ResultModel<List<SystemWorkingCaseBean>>>())
+                .flatMap(new FlatMapTopRes<List<SystemWorkingCaseBean>>())
+                .subscribe(new Subscriber<List<SystemWorkingCaseBean>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(List<SystemWorkingCaseBean> list) {
+                        for (SystemWorkingCaseBean bank : list) {
+                            for (SystemWorkingCaseBean beanSys : caseBeanList) {
+                                if (bank.getTradeSysCode().equals(beanSys.getTradeSysCode())) {
+                                    beanSys.setTradeSysVolume(bank.getTradeSysVolume());
+                                }
+                            }
+
+                        }
+                        xAdapter.setList(caseBeanList);
+                    }
+                });
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
 

@@ -24,22 +24,27 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/content_case"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@android:color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="全部"
+                    android:textColor="@color/color_4d"
+                    android:textSize="14sp"
+                    android:id="@+id/text_bank_search"
+                    />
+
+            </FrameLayout>
         </LinearLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fl_btn_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="20dp"
-            android:src="@android:drawable/ic_menu_search"
-            app:borderWidth="0dp"
-            app:elevation="2dp"
-            app:fabSize="normal"
-            app:pressedTranslationZ="4dp"
-            app:rippleColor="@color/color_4d" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

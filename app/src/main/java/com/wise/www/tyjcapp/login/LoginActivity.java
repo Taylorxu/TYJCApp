@@ -9,11 +9,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.wise.www.tyjcapp.R;
 import com.wise.www.tyjcapp.databinding.ActivityLoginBinding;
 import com.wise.www.tyjcapp.main.MainActivity;
-import com.wise.www.tyjcapp.R;
-//import com.wise.www.tyjcapp.databinding.ActivityLoginBinding;
 import com.wise.www.tyjcapp.login.presenter.LoginPresenterCompl;
 import com.wise.www.tyjcapp.login.view.ILoginView;
 
@@ -46,15 +46,15 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
 
     @Override
-    public void onLoginResult(Boolean result, int code) {
-        if (code == -1) {
+    public void onLoginResult(Boolean result) {
+        if (!result) {
             presenterCompl.setViewEnable(true);
             presenterCompl.setProgressBarVisiblity(View.GONE);
             loginBinding.signInButton.setEnabled(true);
             loginBinding.account.setEnabled(true);
             loginBinding.password.setEnabled(true);
         } else {
-            MainActivity.start(this);
+            MainActivity.start(this, null);
             finish();
         }
     }
@@ -80,6 +80,11 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     }
 
     private void attemptLogin() {
+        if(loginBinding.account.getText().toString().isEmpty()){
+            Toast.makeText(getBaseContext(),R.string.prompt_account,Toast.LENGTH_SHORT).show();
+        }if( loginBinding.password.getText().toString().isEmpty()){
+            Toast.makeText(getBaseContext(),R.string.prompt_password,Toast.LENGTH_SHORT).show();
+        }
         presenterCompl.doLogin(loginBinding.account.getText().toString(), loginBinding.password.getText().toString());
     }
 
