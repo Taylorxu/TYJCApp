@@ -75,7 +75,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
             if (bean.getTradeSysColour().indexOf("#") > -1)
                 holder.getBinding().textValue.setTextColor(Color.parseColor(bean.getTradeSysColour().toUpperCase()));
             holder.getBinding().waveLoadingView.setProgressValue(60);
-            holder.getBinding().waveLoadingView.setCenterTitle(bean.getTradeSysColour());
+            holder.getBinding().waveLoadingView.setCenterTitle(bean.getTradeSysSucRate());
             holder.getBinding().waveLoadingView.setCenterTitleColor(Color.WHITE);
             holder.getBinding().waveLoadingView.setCenterTitleSize(12f);
             if (bean.getTradeSysColour().indexOf("#") > -1)
@@ -131,6 +131,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
                             for (SystemWorkingCaseBean beanSys : caseBeanList) {
                                 if (bank.getTradeSysCode().equals(beanSys.getTradeSysCode())) {
                                     beanSys.setTradeSysVolume(bank.getTradeSysVolume());
+                                    beanSys.setTradeSysSucRate(bank.getTradeSysSucRate());
                                 }
                             }
 

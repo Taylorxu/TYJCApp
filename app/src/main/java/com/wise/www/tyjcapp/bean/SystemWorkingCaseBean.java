@@ -13,6 +13,7 @@ public class SystemWorkingCaseBean implements Parcelable {
     private String TradeSysColour;
     private int TradeSysVolume;
     private String TradeSysName;
+    private String TradeSysSucRate;
     /**
      * TradeBankName : 费县梁邹村镇银行股份有限公司
      * TradeBankCode : 320474200018
@@ -29,6 +30,7 @@ public class SystemWorkingCaseBean implements Parcelable {
         TradeSysName = in.readString();
         TradeBankName = in.readString();
         TradeBankCode = in.readString();
+        TradeSysSucRate = in.readString();
     }
 
     @Override
@@ -39,6 +41,7 @@ public class SystemWorkingCaseBean implements Parcelable {
         dest.writeString(TradeSysName);
         dest.writeString(TradeBankName);
         dest.writeString(TradeBankCode);
+        dest.writeString(TradeSysSucRate);
     }
 
     @Override
@@ -104,5 +107,13 @@ public class SystemWorkingCaseBean implements Parcelable {
 
     public void setTradeBankCode(String TradeBankCode) {
         this.TradeBankCode = TradeBankCode;
+    }
+
+    public String getTradeSysSucRate() {
+        return TradeSysSucRate;
+    }
+
+    public void setTradeSysSucRate(String tradeSysSucRate) {
+        TradeSysSucRate = tradeSysSucRate;
     }
 }
