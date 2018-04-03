@@ -22,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static void start(Context context, Bundle bundle) {
         Intent starter = new Intent(context, MainActivity.class);
-        starter.putParcelableArrayListExtra(PARAMKEY, bundle.getParcelableArrayList(PARAMKEY));
+        if (bundle != null)
+            starter.putParcelableArrayListExtra(PARAMKEY, bundle.getParcelableArrayList(PARAMKEY));
         context.startActivity(starter);
     }
 

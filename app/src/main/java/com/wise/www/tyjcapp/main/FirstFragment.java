@@ -28,10 +28,13 @@ import com.wise.www.tyjcapp.bean.SystemCaseBean;
 import com.wise.www.tyjcapp.bean.SystemWorkingCaseBean;
 import com.wise.www.tyjcapp.databinding.FragmentFirstBinding;
 import com.wise.www.tyjcapp.databinding.ItemFirstFragmentBinding;
+import com.wise.www.tyjcapp.main.ortherPage.BankDetailDataActivity;
 import com.wise.www.tyjcapp.main.request.ApiService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -60,16 +63,20 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_first, container, false);
         fragmentBinding.title.setText(R.string.str_system_case);
         fragmentBinding.textBankSearch.setOnClickListener(this);
+        xAdapter.setItemClickListener(itemClickListener);
         initListView();
         return fragmentBinding.getRoot();
     }
 
     XAdapter<SystemWorkingCaseBean, ItemFirstFragmentBinding> xAdapter = new XAdapter.SimpleAdapter<SystemWorkingCaseBean, ItemFirstFragmentBinding>(0, R.layout.item_first_fragment) {
+
+
         @SuppressLint("ResourceAsColor")
         @Override
         public void onBindViewHolder(XViewHolder<SystemWorkingCaseBean, ItemFirstFragmentBinding> holder, int position) {
             super.onBindViewHolder(holder, position);
             SystemWorkingCaseBean bean = getItemData(position);
+            holder.getBinding().setData2(bean);
             holder.getBinding().textName.setText(bean.getTradeSysName());
             holder.getBinding().textValue.setText(String.valueOf(bean.getTradeSysVolume()));
             if (bean.getTradeSysColour().indexOf("#") > -1)
@@ -87,6 +94,16 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
                 holder.getBinding().waveLoadingView.setWaveBgColor(Color.parseColor(bean.getTradeSysColour().toUpperCase()));*/
 
 
+        }
+    };
+    XAdapter.OnItemClickListener<SystemWorkingCaseBean, ItemFirstFragmentBinding> itemClickListener = new XAdapter.OnItemClickListener<SystemWorkingCaseBean, ItemFirstFragmentBinding>() {
+        @Override
+        public void onItemClick(XViewHolder<SystemWorkingCaseBean, ItemFirstFragmentBinding> holder) {
+            Map<String, String> stringMap = new HashMap<>();
+            stringMap.put("TradeBankCode", tradeBankCode);
+            stringMap.put("TradeSysCode", holder.getBinding().getData2().getTradeSysCode());
+            stringMap.put("BankName", tradebankName);
+            BankDetailDataActivity.start(getContext(), stringMap);
         }
     };
 
@@ -107,6 +124,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
      * 默认-1 全部。 当在搜索界面选好银行后，跳转此界面 根据此条件查询
      */
     String tradeBankCode = "-1";
+    String tradebankName = "全部";
 
     private void createData() {
         ApiService.Creator.get().systemStatusServlet(tradeBankCode)

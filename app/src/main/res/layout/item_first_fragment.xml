@@ -6,6 +6,10 @@
         <variable
             name="data1"
             type="com.wise.www.tyjcapp.bean.SystemCaseBean" />
+
+        <variable
+            name="data2"
+            type="com.wise.www.tyjcapp.bean.SystemWorkingCaseBean" />
     </data>
 
 

@@ -8,6 +8,7 @@ import com.wise.www.basestone.view.network.ResultModel;
 import com.wise.www.tyjcapp.bean.AlarmSystemBean;
 import com.wise.www.tyjcapp.bean.MemberTradeBean;
 import com.wise.www.tyjcapp.bean.SystemWorkingCaseBean;
+import com.wise.www.tyjcapp.bean.WrapOnSystemBean;
 
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,10 @@ public interface ApiService {
 
     @POST("TradeBankTopServlet")
     Observable<Response<ResultModel<List<MemberTradeBean>>>> tradeBankTopServlet();
+
+    @FormUrlEncoded
+    @POST("OneSystemStatusServlet")
+    Observable<Response<ResultModel<WrapOnSystemBean>>> oneSystemStatusServlet(@Field("tradeSysCode") String tradeSysCode,@Field("tradeBankCode") String tradeBankCode);
 
 
     class Creator {
