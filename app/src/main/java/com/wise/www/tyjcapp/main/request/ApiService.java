@@ -57,7 +57,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("OneSystemStatusServlet")
-    Observable<Response<ResultModel<WrapOnSystemBean>>> oneSystemStatusServlet(@Field("tradeSysCode") String tradeSysCode,@Field("tradeBankCode") String tradeBankCode);
+    Observable<Response<WrapOnSystemBean>> oneSystemStatusServlet(@Field("tradeSysCode") String tradeSysCode,@Field("tradeBankCode") String tradeBankCode);
 
 
     class Creator {

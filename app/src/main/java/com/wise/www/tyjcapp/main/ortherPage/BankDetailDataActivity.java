@@ -13,6 +13,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.view.View;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -87,8 +88,7 @@ public class BankDetailDataActivity extends AppCompatActivity {
         ApiService.Creator.get().oneSystemStatusServlet(tradeSysCode, tradeBankCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(new FlatMapResponse<ResultModel<WrapOnSystemBean>>())
-                .flatMap(new FlatMapTopRes<WrapOnSystemBean>())
+                .flatMap(new FlatMapResponse<WrapOnSystemBean>())
                 .subscribe(new Subscriber<WrapOnSystemBean>() {
                     @Override
                     public void onCompleted() {
@@ -197,4 +197,7 @@ public class BankDetailDataActivity extends AppCompatActivity {
         return s;
     }
 
+    public void onClick(View v) {
+        finish();
+    }
 }

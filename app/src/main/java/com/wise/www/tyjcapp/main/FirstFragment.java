@@ -2,6 +2,7 @@ package com.wise.www.tyjcapp.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -29,6 +30,7 @@ import com.wise.www.tyjcapp.bean.SystemWorkingCaseBean;
 import com.wise.www.tyjcapp.databinding.FragmentFirstBinding;
 import com.wise.www.tyjcapp.databinding.ItemFirstFragmentBinding;
 import com.wise.www.tyjcapp.main.ortherPage.BankDetailDataActivity;
+import com.wise.www.tyjcapp.main.ortherPage.SearchPageActivity;
 import com.wise.www.tyjcapp.main.request.ApiService;
 
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.app.Activity.RESULT_OK;
 import static com.wise.www.tyjcapp.main.MainActivity.PARAMKEY;
 
 
@@ -62,7 +65,8 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_first, container, false);
         fragmentBinding.title.setText(R.string.str_system_case);
-        fragmentBinding.textBankSearch.setOnClickListener(this);
+        fragmentBinding.btnSearchFrame.setOnClickListener(this);
+        setradebankName();
         xAdapter.setItemClickListener(itemClickListener);
         initListView();
         return fragmentBinding.getRoot();
@@ -81,8 +85,10 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
             holder.getBinding().textValue.setText(String.valueOf(bean.getTradeSysVolume()));
             if (bean.getTradeSysColour().indexOf("#") > -1)
                 holder.getBinding().textValue.setTextColor(Color.parseColor(bean.getTradeSysColour().toUpperCase()));
-            holder.getBinding().waveLoadingView.setProgressValue(60);
-            holder.getBinding().waveLoadingView.setCenterTitle(bean.getTradeSysSucRate());
+//            float prograss = Float.parseFloat(bean.getTradeSysSucRate());
+            int prograss = Math.round(Float.parseFloat(bean.getTradeSysSucRate()));
+            holder.getBinding().waveLoadingView.setProgressValue(prograss);
+            holder.getBinding().waveLoadingView.setCenterTitle(bean.getTradeSysSucRate() + "%");
             holder.getBinding().waveLoadingView.setCenterTitleColor(Color.WHITE);
             holder.getBinding().waveLoadingView.setCenterTitleSize(12f);
             if (bean.getTradeSysColour().indexOf("#") > -1)
@@ -107,11 +113,14 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
         }
     };
 
+    private void setradebankName() {
+        fragmentBinding.textBankSearch.setText(tradebankName);
+    }
+
     /**
      *
      */
     private void initListView() {
-
         createData();
         GridLayoutManager layoutmanager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         fragmentBinding.contentCase.setLayoutManager(layoutmanager);
@@ -125,6 +134,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
      */
     String tradeBankCode = "-1";
     String tradebankName = "全部";
+
 
     private void createData() {
         ApiService.Creator.get().systemStatusServlet(tradeBankCode)
@@ -161,9 +171,26 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.btn_search_frame:
+                Intent intent = new Intent(getActivity(), SearchPageActivity.class);
+                startActivityForResult(intent, 9009);
+                break;
+        }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 9009) {
+                tradebankName = data.getStringExtra("TradeBankName");
+                tradeBankCode = data.getStringExtra("TradeBankCode");
+                setradebankName();
+                createData();
+            }
+        }
+    }
 
     class RVItemDecoration extends RecyclerView.ItemDecoration {
         public RVItemDecoration(int space, int mDividerHeight) {
