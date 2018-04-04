@@ -18,10 +18,10 @@
 
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="76dp"
+        android:layout_height="76dp"
         android:layout_above="@+id/text_logo"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="43dp"
-        android:background="@drawable/layer_logo_img" />
+        android:background="@drawable/ic_logo" />
 </RelativeLayout>
