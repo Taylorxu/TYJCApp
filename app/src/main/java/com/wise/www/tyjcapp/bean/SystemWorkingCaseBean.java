@@ -8,10 +8,12 @@ import android.os.Parcelable;
  */
 
 public class SystemWorkingCaseBean implements Parcelable {
+    public SystemWorkingCaseBean() {
+    }
 
     private String TradeSysCode;
     private String TradeSysColour;
-    private int TradeSysVolume;
+    private String TradeSysVolume;
     private String TradeSysName;
     private String TradeSysSucRate;
     /**
@@ -23,10 +25,10 @@ public class SystemWorkingCaseBean implements Parcelable {
     private String TradeBankCode;
 
 
-    protected SystemWorkingCaseBean(Parcel in) {
+    public SystemWorkingCaseBean(Parcel in) {
         TradeSysCode = in.readString();
         TradeSysColour = in.readString();
-        TradeSysVolume = in.readInt();
+        TradeSysVolume = in.readString();
         TradeSysName = in.readString();
         TradeBankName = in.readString();
         TradeBankCode = in.readString();
@@ -37,7 +39,7 @@ public class SystemWorkingCaseBean implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(TradeSysCode);
         dest.writeString(TradeSysColour);
-        dest.writeInt(TradeSysVolume);
+        dest.writeString(TradeSysVolume);
         dest.writeString(TradeSysName);
         dest.writeString(TradeBankName);
         dest.writeString(TradeBankCode);
@@ -77,11 +79,11 @@ public class SystemWorkingCaseBean implements Parcelable {
         TradeSysColour = tradeSysColour;
     }
 
-    public int getTradeSysVolume() {
+    public String getTradeSysVolume() {
         return TradeSysVolume;
     }
 
-    public void setTradeSysVolume(int tradeSysVolume) {
+    public void setTradeSysVolume(String tradeSysVolume) {
         TradeSysVolume = tradeSysVolume;
     }
 

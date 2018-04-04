@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Parcelable;
@@ -83,9 +84,20 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
             holder.getBinding().setData2(bean);
             holder.getBinding().textName.setText(bean.getTradeSysName());
             holder.getBinding().textValue.setText(String.valueOf(bean.getTradeSysVolume()));
-            if (bean.getTradeSysColour().indexOf("#") > -1)
-                holder.getBinding().textValue.setTextColor(Color.parseColor(bean.getTradeSysColour().toUpperCase()));
-//            float prograss = Float.parseFloat(bean.getTradeSysSucRate());
+            if (bean.getTradeSysColour().indexOf("#") > -1) {
+                holder.getBinding().linearLayoutRoot.setBackgroundColor(Color.parseColor(bean.getTradeSysColour().toUpperCase()));
+                int startColor = Color.parseColor(bean.getTradeSysColour().toUpperCase());
+                int endColor = Color.parseColor(bean.getTradeSysColour().toUpperCase().replace("#", "#7F"));
+                int colors[] = {startColor, endColor};
+                GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colors);
+                int sdk = android.os.Build.VERSION.SDK_INT;
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    holder.getBinding().linearLayoutRoot.setBackgroundDrawable(bg);
+                } else {
+                    holder.getBinding().linearLayoutRoot.setBackground(bg);
+                }
+            }
+
             int prograss = Math.round(Float.parseFloat(bean.getTradeSysSucRate()));
             holder.getBinding().waveLoadingView.setProgressValue(prograss);
             holder.getBinding().waveLoadingView.setCenterTitle(bean.getTradeSysSucRate() + "%");

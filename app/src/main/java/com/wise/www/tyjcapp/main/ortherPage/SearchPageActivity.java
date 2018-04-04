@@ -87,6 +87,10 @@ public class SearchPageActivity extends AppCompatActivity implements TextWatcher
 
                     @Override
                     public void onNext(List<SystemWorkingCaseBean> list) {
+                        SystemWorkingCaseBean bean = new SystemWorkingCaseBean();
+                        bean.setTradeBankName("全部");
+                        bean.setTradeBankCode("-1");
+                        list.add(0,bean);
                         adapter.setList(list);
                         selectEdList.addAll(list);
                     }

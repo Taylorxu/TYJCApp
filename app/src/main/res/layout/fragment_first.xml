@@ -26,7 +26,9 @@
                 android:layout_height="48dp"
                 android:background="@drawable/shape_bg_white"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp">
+                android:paddingRight="20dp"
+                android:focusableInTouchMode="true"
+                >
 
                 <TextView
                     android:id="@+id/text_bank_search"
@@ -36,12 +38,15 @@
                     android:textColor="@color/color_4d"
                     android:textSize="14sp" />
 
-                <ImageButton
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="right|center_vertical"
                     android:background="@drawable/ic_right_arrow"
-                    android:padding="11dp" />
+                    android:focusable="false"
+                    />
+
+
             </FrameLayout>
         </android.support.design.widget.AppBarLayout>
 

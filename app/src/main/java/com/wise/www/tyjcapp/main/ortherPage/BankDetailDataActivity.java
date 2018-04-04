@@ -14,6 +14,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.View;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -98,15 +99,18 @@ public class BankDetailDataActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        EEMsgToastHelper.newInstance().selectWitch(e.getCause().getMessage());
+                        Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onNext(WrapOnSystemBean bean) {
-                        List<OneSystemBean> adapterList = new ArrayList<>();
-                        adapterList.add(bean.getCurrent());
-                        adapterList.add(bean.getHistory());
-                        adapter.setList(adapterList);
+                        if (null != bean.getCurrent() || null != bean.getHistory()) {
+                            List<OneSystemBean> adapterList = new ArrayList<>();
+                            adapterList.add(bean.getCurrent());
+                            adapterList.add(bean.getHistory());
+                            adapter.setList(adapterList);
+                        }
+
                     }
                 });
 
