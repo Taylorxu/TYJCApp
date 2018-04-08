@@ -16,9 +16,12 @@ import io.realm.RealmConfiguration;
  */
 
 public class MyApplication extends WApp {
+    private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        context = getApplicationContext();
         Realm.init(this);
         configRealm();
         frescoConfig();
@@ -37,5 +40,7 @@ public class MyApplication extends WApp {
     }
 
 
-
+    public static Context getContext() {
+        return context;
+    }
 }

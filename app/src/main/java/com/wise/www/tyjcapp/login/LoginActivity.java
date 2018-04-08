@@ -74,16 +74,23 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
 
     public void onClick(View view) {
-        presenterCompl.setViewEnable(false);
-        presenterCompl.setProgressBarVisiblity(View.VISIBLE);
-        attemptLogin();
+        switch (view.getId()) {
+            case R.id.sign_in_button:
+                presenterCompl.setViewEnable(false);
+                presenterCompl.setProgressBarVisiblity(View.VISIBLE);
+                attemptLogin();
+                break;
+
+        }
+
     }
 
     private void attemptLogin() {
-        if(loginBinding.account.getText().toString().isEmpty()){
-            Toast.makeText(getBaseContext(),R.string.prompt_account,Toast.LENGTH_SHORT).show();
-        }if( loginBinding.password.getText().toString().isEmpty()){
-            Toast.makeText(getBaseContext(),R.string.prompt_password,Toast.LENGTH_SHORT).show();
+        if (loginBinding.account.getText().toString().isEmpty()) {
+            Toast.makeText(getBaseContext(), R.string.prompt_account, Toast.LENGTH_SHORT).show();
+        }
+        if (loginBinding.password.getText().toString().isEmpty()) {
+            Toast.makeText(getBaseContext(), R.string.prompt_password, Toast.LENGTH_SHORT).show();
         }
         presenterCompl.doLogin(loginBinding.account.getText().toString(), loginBinding.password.getText().toString());
     }

@@ -99,14 +99,22 @@
                     android:layout_height="45dp"
                     android:layout_marginTop="54dp"
                     android:background="@drawable/shape_corners_3_white"
+                    android:onClick="onClick"
                     android:text="@string/action_sign_in"
                     android:textColor="@color/color_350d"
-                    android:textSize="17sp"
-                    android:onClick="onClick"
-                    />
+                    android:textSize="17sp" />
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tv_net_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:onClick="onClick"
+                android:text="@string/net_url"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <ProgressBar

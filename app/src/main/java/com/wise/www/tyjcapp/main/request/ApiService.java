@@ -69,7 +69,13 @@ public interface ApiService {
             }
             return apiService;
         }
-
+        /**
+         * 重新设置服务地址时候，apiService 有可能不是null，不是null，地址则是之前的，所以在添加新的地址时就setnull,
+         * 请求接口时候renew
+         */
+        public static void setNull(){
+            apiService=null;
+        }
         private static synchronized void create() {
             if (apiService == null) {
                 apiService = getRetrofit().create(ApiService.class);
@@ -78,7 +84,7 @@ public interface ApiService {
 
         private static Retrofit getRetrofit() {
             return new Retrofit.Builder()
-                    .baseUrl(BaseUrl.Host)
+                    .baseUrl(BaseUrl.getHost())
                     .client(NetConfig.getInstance().getClient())
                     .addConverterFactory(GsonConverterFactory.create(NetConfig.getInstance().getGson()))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

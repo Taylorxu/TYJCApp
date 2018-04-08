@@ -28,4 +28,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="net_url">设置服务器地址</string>
+    <string name="server">请输入服务器地址</string>
+    <string name="save">保存</string>
+
+    <string name="toast_server">服务器地址不能为空</string>
+    <string name="toast_server_save">保存成功</string>
+    <string name="toast_server_fail">保存失败</string>
 </resources>

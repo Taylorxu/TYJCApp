@@ -48,7 +48,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".main.ortherPage.BankDetailDataActivity" />
-        <activity android:name=".main.ortherPage.SearchPageActivity"></activity>
+        <activity android:name=".main.ortherPage.SearchPageActivity" />
+        <activity android:name=".main.ortherPage.ServerAddressActivity"></activity>
     </application>
 
 </manifest>

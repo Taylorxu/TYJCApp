@@ -44,4 +44,7 @@
     <color name="color_top1_b">#87c8fe</color>
     <color name="color_top2_b">#a8d8fe</color>
     <color name="color_top3_b">#ddeffd</color>
+
+    <color name="c3">#6d7072</color>
+    <color name="c1">#0fa6df</color>
 </resources>
