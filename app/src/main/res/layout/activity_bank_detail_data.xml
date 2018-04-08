@@ -22,12 +22,12 @@
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:onClick="onClick"
-                android:padding="15dp" />
+                android:padding="15dp"
+                app:srcCompat="@drawable/ic_back" />
 
             <TextView
                 android:id="@+id/title"
-                style="@style/Title"
-                />
+                style="@style/Title" />
 
         </FrameLayout>
 
@@ -45,10 +45,15 @@
                 android:textColor="@color/colorPrimary" />
         </FrameLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/content_data"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/content_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </layout>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,7 +46,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class BankDetailDataActivity extends AppCompatActivity {
+public class BankDetailDataActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     public static String BANKNAMEKEY = "BANKNAME";
     ActivityBankDetailDataBinding binding;
 
@@ -73,6 +74,8 @@ public class BankDetailDataActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_bank_detail_data);
+        binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        binding.refreshLayout.setOnRefreshListener(this);
         getExtra();
         binding.contentData.setLayoutManager(new LinearLayoutManager(this));
         binding.contentData.setAdapter(adapter);
@@ -99,6 +102,7 @@ public class BankDetailDataActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        binding.refreshLayout.setRefreshing(false);
                         e.printStackTrace();
                         Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -111,7 +115,7 @@ public class BankDetailDataActivity extends AppCompatActivity {
                             adapterList.add(bean.getHistory());
                             adapter.setList(adapterList);
                         }
-
+                        binding.refreshLayout.setRefreshing(false);
                     }
                 });
 
@@ -124,15 +128,15 @@ public class BankDetailDataActivity extends AppCompatActivity {
             if (i == 0) {
                 entries.add(new PieEntry(Float.parseFloat(data.getTradeSucRate())));
                 entries.add(new PieEntry(100 - Float.parseFloat(data.getTradeSucRate())));
-                pieCharts[i].setCenterText(generateCenterSpannableText(i, Float.parseFloat(data.getTradeSucRate())));
+                pieCharts[i].setCenterText(generateCenterSpannableText(i, data.getTradeSucRate()));
             } else if (i == 1) {
                 entries.add(new PieEntry(Float.parseFloat(data.getTradeStaticRate())));
                 entries.add(new PieEntry(100 - Float.parseFloat(data.getTradeStaticRate())));
-                pieCharts[i].setCenterText(generateCenterSpannableText(i, Float.parseFloat(data.getTradeStaticRate())));
+                pieCharts[i].setCenterText(generateCenterSpannableText(i, data.getTradeStaticRate()));
             } else {
                 entries.add(new PieEntry(Float.parseFloat(data.getTradeDynamicRate())));
                 entries.add(new PieEntry(100 - Float.parseFloat(data.getTradeDynamicRate())));
-                pieCharts[i].setCenterText(generateCenterSpannableText(i, Float.parseFloat(data.getTradeDynamicRate())));
+                pieCharts[i].setCenterText(generateCenterSpannableText(i, data.getTradeDynamicRate()));
             }
 
             PieDataSet dataSet = new PieDataSet(entries, "PieData" + i);
@@ -193,7 +197,7 @@ public class BankDetailDataActivity extends AppCompatActivity {
     };
 
     @SuppressLint("ResourceAsColor")
-    private SpannableString generateCenterSpannableText(int p, float pieChartData) {
+    private SpannableString generateCenterSpannableText(int p, String pieChartData) {
         SpannableString s = null;
         s = new SpannableString(pieChartData + "%");
         s.setSpan(new StyleSpan(Typeface.NORMAL), 0, s.length(), 0);
@@ -204,5 +208,10 @@ public class BankDetailDataActivity extends AppCompatActivity {
 
     public void onClick(View v) {
         finish();
+    }
+
+    @Override
+    public void onRefresh() {
+        getExtra();
     }
 }

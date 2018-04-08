@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -22,7 +23,9 @@ import com.wise.www.tyjcapp.main.ortherPage.ServerAddressActivity;
 public class LoginActivity extends AppCompatActivity implements ILoginView {
     ActivityLoginBinding loginBinding;
     LoginPresenterCompl presenterCompl;
-
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
     public static void start(Context context) {
         Intent starter = new Intent(context, LoginActivity.class);
         context.startActivity(starter);

@@ -52,6 +52,7 @@ public class LoginPresenterCompl implements ILoginPresenter {
                     public void onError(Throwable e) {
                         e.printStackTrace();
                         EEMsgToastHelper.newInstance().selectWitch(e.getMessage());
+                        iLoginView.onLoginResult(false);
                     }
 
                     @Override

@@ -13,12 +13,14 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wise.www.basestone.view.helper.EEMsgToastHelper;
 import com.wise.www.basestone.view.network.FlatMapResponse;
 import com.wise.www.basestone.view.network.FlatMapTopRes;
 import com.wise.www.basestone.view.network.ResultModel;
@@ -48,7 +50,7 @@ import static android.app.Activity.RESULT_OK;
 import static com.wise.www.tyjcapp.main.MainActivity.PARAMKEY;
 
 
-public class FirstFragment extends Fragment implements View.OnClickListener {
+public class FirstFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     FragmentFirstBinding fragmentBinding;
     List<SystemWorkingCaseBean> caseBeanList;
 
@@ -70,6 +72,8 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_first, container, false);
         fragmentBinding.title.setText(R.string.str_system_case);
+        fragmentBinding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        fragmentBinding.refreshLayout.setOnRefreshListener(this);
         fragmentBinding.btnSearchFrame.setOnClickListener(this);
         setradebankName();
         xAdapter.setItemClickListener(itemClickListener);
@@ -168,6 +172,8 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        EEMsgToastHelper.newInstance().selectWitch(e.getMessage());
+                        fragmentBinding.refreshLayout.setRefreshing(false);
                     }
 
                     @Override
@@ -182,6 +188,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
 
                         }
                         xAdapter.setList(caseBeanList);
+                        fragmentBinding.refreshLayout.setRefreshing(false);
                     }
                 });
     }
@@ -221,6 +228,13 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * 从筛选界面返回来
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -232,6 +246,11 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
                 createData();
             }
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        createData();
     }
 
     class RVItemDecoration extends RecyclerView.ItemDecoration {

@@ -1,6 +1,10 @@
 package com.wise.www.tyjcapp.main;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -31,7 +35,12 @@ public class FourthFragment extends Fragment implements View.OnClickListener {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_fourth, container, false);
         binding.title.setText(R.string.str_seeting);
-        binding.flToService.setOnClickListener(this);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {//<21
+            binding.btnLogOut.setBackgroundResource(R.drawable.shape_corners_2_primary);
+        }else{
+            binding.btnLogOut.setBackgroundResource(R.drawable.selector_ripple);
+        }
+        binding.tvVersion.setText(getLocalVersion(getContext()));
         binding.btnLogOut.setOnClickListener(this);
         return binding.getRoot();
     }
@@ -43,9 +52,22 @@ public class FourthFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_log_out:
                 LoginActivity.start(getContext());
                 break;
-            case R.id.fl_to_service:
-                ServerAddressActivity.start(getContext());
-                break;
+
         }
     }
+
+    public static String getLocalVersion(Context ctx) {
+        String localVersion = "0.0";
+        try {
+            PackageInfo packageInfo = ctx.getApplicationContext()
+                    .getPackageManager()
+                    .getPackageInfo(ctx.getPackageName(), 0);
+            localVersion = packageInfo.versionName;
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return localVersion;
+    }
+
 }

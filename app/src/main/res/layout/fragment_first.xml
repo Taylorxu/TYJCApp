@@ -25,10 +25,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@drawable/shape_bg_white"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
                 android:focusableInTouchMode="true"
-                >
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
 
                 <TextView
                     android:id="@+id/text_bank_search"
@@ -42,22 +41,25 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="right|center_vertical"
-                    android:background="@drawable/ic_right_arrow"
                     android:focusable="false"
-                    />
+                    app:srcCompat="@drawable/ic_right_arrow" />
 
 
             </FrameLayout>
         </android.support.design.widget.AppBarLayout>
 
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/content_case"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/content_case"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+        </android.support.v4.widget.SwipeRefreshLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>
