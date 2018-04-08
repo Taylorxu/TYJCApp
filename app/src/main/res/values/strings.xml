@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">统一监测</string>
+    <string name="app_name">统一业务监控</string>
     <string name="title_home">系统运行</string>
     <string name="title_announce">成员top</string>
     <string name="title_notifications">告警</string>
@@ -19,7 +19,7 @@
     <string name="str_warning_list">告警列表</string>
     <string name="str_warning_history">历史告警</string>
     <string name="str_seeting">设置</string>
-    <string name="str_system_case">网银系统运行情况</string>
+    <string name="str_system_case">系统运行情况</string>
     <string name="str_service_set">设置服务器地址</string>
     <string name="str_service_name">服务器地址:</string>
     <string name="str_save">保存</string>

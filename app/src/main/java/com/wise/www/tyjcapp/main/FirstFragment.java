@@ -61,7 +61,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
     public void onAttach(Context context) {
         super.onAttach(context);
         caseBeanList = getActivity().getIntent().getParcelableArrayListExtra(PARAMKEY);
-        if (caseBeanList==null) {
+        if (caseBeanList == null) {
             getBaseData();
         }
     }
@@ -124,6 +124,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
             Map<String, String> stringMap = new HashMap<>();
             stringMap.put("TradeBankCode", tradeBankCode);
             stringMap.put("TradeSysCode", holder.getBinding().getData2().getTradeSysCode());
+            stringMap.put("SysName", holder.getBinding().getData2().getTradeSysName());
             stringMap.put("BankName", tradebankName);
             BankDetailDataActivity.start(getContext(), stringMap);
         }

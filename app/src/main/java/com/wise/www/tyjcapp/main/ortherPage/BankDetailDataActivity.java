@@ -82,6 +82,7 @@ public class BankDetailDataActivity extends AppCompatActivity {
     private void getExtra() {
         Map<String, String> stringMap = (Map<String, String>) getIntent().getSerializableExtra(BANKNAMEKEY);
         binding.whichBankName.setText(stringMap.get("BankName"));
+        binding.title.setText(stringMap.get("SysName"));
         getData(stringMap.get("TradeBankCode"), stringMap.get("TradeSysCode"));
     }
 

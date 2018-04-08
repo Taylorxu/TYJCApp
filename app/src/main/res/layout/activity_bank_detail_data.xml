@@ -27,7 +27,7 @@
             <TextView
                 android:id="@+id/title"
                 style="@style/Title"
-                android:text="@string/str_system_case" />
+                />
 
         </FrameLayout>
 
