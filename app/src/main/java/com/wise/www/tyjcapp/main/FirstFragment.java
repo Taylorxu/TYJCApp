@@ -10,8 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Message;
-import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,27 +22,29 @@ import android.view.ViewGroup;
 import com.wise.www.basestone.view.helper.EEMsgToastHelper;
 import com.wise.www.basestone.view.network.FlatMapResponse;
 import com.wise.www.basestone.view.network.FlatMapTopRes;
+import com.wise.www.basestone.view.network.Notification;
 import com.wise.www.basestone.view.network.ResultModel;
-import com.wise.www.tyjcapp.BR;
+import com.wise.www.basestone.view.network.RxBus;
+import com.wise.www.basestone.view.util.LogUtils;
 import com.wise.www.tyjcapp.R;
 import com.wise.www.basestone.view.adapter.XAdapter;
 import com.wise.www.basestone.view.adapter.XViewHolder;
-import com.wise.www.tyjcapp.bean.SystemCaseBean;
+import com.wise.www.tyjcapp.bean.MemberTradeBean;
 import com.wise.www.tyjcapp.bean.SystemWorkingCaseBean;
 import com.wise.www.tyjcapp.databinding.FragmentFirstBinding;
 import com.wise.www.tyjcapp.databinding.ItemFirstFragmentBinding;
-import com.wise.www.tyjcapp.login.LoginActivity;
 import com.wise.www.tyjcapp.main.ortherPage.BankDetailDataActivity;
 import com.wise.www.tyjcapp.main.ortherPage.SearchPageActivity;
 import com.wise.www.tyjcapp.main.request.ApiService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
@@ -53,6 +54,12 @@ import static com.wise.www.tyjcapp.main.MainActivity.PARAMKEY;
 public class FirstFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     FragmentFirstBinding fragmentBinding;
     List<SystemWorkingCaseBean> caseBeanList;
+    /**
+     * 默认-1 全部。 当在搜索界面选好银行后，跳转此界面 根据此条件查询
+     */
+    String tradeBankCode = "-1";
+    String tradebankName = "全部";
+    Subscription notification;
 
     public static FirstFragment newInstance() {
         FirstFragment firstFragment = new FirstFragment();
@@ -68,13 +75,16 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        notification = Notification.register(action1);
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_first, container, false);
         fragmentBinding.title.setText(R.string.str_system_case);
         fragmentBinding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         fragmentBinding.refreshLayout.setOnRefreshListener(this);
         fragmentBinding.btnSearchFrame.setOnClickListener(this);
+
         setradebankName();
         xAdapter.setItemClickListener(itemClickListener);
         initListView();
@@ -149,12 +159,6 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
         fragmentBinding.contentCase.addItemDecoration(new RVItemDecoration(4, 20));
 
     }
-
-    /**
-     * 默认-1 全部。 当在搜索界面选好银行后，跳转此界面 根据此条件查询
-     */
-    String tradeBankCode = "-1";
-    String tradebankName = "全部";
 
 
     private void createData() {
@@ -303,5 +307,20 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
             }
         }
     }
+
+    Action1<Notification> action1 = new Action1<Notification>() {
+        @Override
+        public void call(Notification notification) {
+            if (notification.getCode() == 001) {
+                MemberTradeBean tradeBean = (MemberTradeBean) notification.getExtra();
+                tradebankName = tradeBean.getTradeBankName();
+                tradeBankCode = tradeBean.getTradeBankCode();
+                setradebankName();
+                fragmentBinding.refreshLayout.setRefreshing(true);
+                createData();
+
+            }
+        }
+    };
 
 }

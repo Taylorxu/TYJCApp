@@ -11,8 +11,11 @@ import android.widget.RadioGroup;
 
 import com.wise.www.basestone.view.network.FlatMapResponse;
 import com.wise.www.basestone.view.network.FlatMapTopRes;
+import com.wise.www.basestone.view.network.Notification;
 import com.wise.www.basestone.view.network.ResultModel;
+import com.wise.www.basestone.view.network.RxBus;
 import com.wise.www.tyjcapp.R;
+import com.wise.www.tyjcapp.bean.MemberTradeBean;
 import com.wise.www.tyjcapp.bean.SystemCaseBean;
 import com.wise.www.tyjcapp.bean.SystemWorkingCaseBean;
 import com.wise.www.tyjcapp.databinding.ActivityMainBinding;
@@ -28,10 +31,11 @@ import rx.schedulers.Schedulers;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SecondFragment.SecondFragmentIFlistenter {
     private MainAdapter mSectionsPagerAdapter;
     ActivityMainBinding mainBinding;
     static String PARAMKEY = "systemData";
+    private String bankCode = "-1", bankName = "全部";//变量被secondFragment 传过来的值所代替,服务于 firstFragment
 
     public static void start(Context context, Bundle bundle) {
         Intent starter = new Intent(context, MainActivity.class);
@@ -104,4 +108,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    public void refreshByBankCode(MemberTradeBean memberTradeBean) {
+        mainBinding.container.setCurrentItem(0, false);
+        RxBus.getDefault().post(new Notification(001,0).setExtra(memberTradeBean));
+    }
 }

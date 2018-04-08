@@ -8,6 +8,7 @@ import com.wise.www.basestone.view.network.ResultModel;
 import com.wise.www.tyjcapp.bean.AlarmSystemBean;
 import com.wise.www.tyjcapp.bean.MemberTradeBean;
 import com.wise.www.tyjcapp.bean.SystemWorkingCaseBean;
+import com.wise.www.tyjcapp.bean.WrapMemberTradeBean;
 import com.wise.www.tyjcapp.bean.WrapOnSystemBean;
 
 import java.util.List;
@@ -53,7 +54,7 @@ public interface ApiService {
 
 
     @POST("TradeBankTopServlet")
-    Observable<Response<ResultModel<List<MemberTradeBean>>>> tradeBankTopServlet();
+    Observable<Response<ResultModel<WrapMemberTradeBean>>> tradeBankTopServlet();
 
     @FormUrlEncoded
     @POST("OneSystemStatusServlet")

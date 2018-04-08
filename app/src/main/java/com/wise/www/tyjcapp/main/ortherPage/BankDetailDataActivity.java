@@ -110,10 +110,14 @@ public class BankDetailDataActivity extends AppCompatActivity implements SwipeRe
                     @Override
                     public void onNext(WrapOnSystemBean bean) {
                         if (null != bean.getCurrent() || null != bean.getHistory()) {
+                            if( binding.tvEmpty.getVisibility()==View.VISIBLE) binding.tvEmpty.setVisibility(View.GONE);
                             List<OneSystemBean> adapterList = new ArrayList<>();
                             adapterList.add(bean.getCurrent());
                             adapterList.add(bean.getHistory());
                             adapter.setList(adapterList);
+                        } else {
+                            binding.tvEmpty.setVisibility(View.VISIBLE);
+                            binding.tvEmpty.setText(getResources().getString(R.string.str_empty_data));
                         }
                         binding.refreshLayout.setRefreshing(false);
                     }

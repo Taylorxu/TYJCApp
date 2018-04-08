@@ -9,21 +9,21 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 
 public class MainAdapter extends FragmentPagerAdapter {
+
     public MainAdapter(FragmentManager fm) {
         super(fm);
     }
-
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case 0:
-                return  FirstFragment.newInstance();
+                return FirstFragment.newInstance();
             case 1:
-                return  SecondFragment.newInstance();
+                return SecondFragment.newInstance();
             case 2:
-                return  ThirdFragment.newInstance();
+                return ThirdFragment.newInstance();
             case 3:
-                return  FourthFragment.newInstance();
+                return FourthFragment.newInstance();
         }
         return new FirstFragment().newInstance();
     }

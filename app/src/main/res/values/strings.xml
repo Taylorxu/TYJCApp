@@ -11,7 +11,7 @@
     <string name="action_sign_in">登录</string>
     <string name="action_sign_in_short">登录</string>
     <string name="error_login_login_need">请登录</string>
-    <string name="str_top">成员行交易量Top</string>
+    <string name="str_top">成员行?小时内交易量Top</string>
     <string name="str_top_member">成员行</string>
     <string name="str_top_exchange">交易量</string>
     <string name="str_warning_title">告警</string>
@@ -37,4 +37,5 @@
     <string name="toast_server_end">请已"/"结束</string>
     <string name="toast_server_save">保存成功</string>
     <string name="toast_server_fail">保存失败</string>
+    <string name="str_empty_data">暂无数据</string>
 </resources>
