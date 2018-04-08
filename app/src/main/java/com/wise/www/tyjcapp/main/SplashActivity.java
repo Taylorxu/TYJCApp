@@ -1,6 +1,7 @@
 package com.wise.www.tyjcapp.main;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,11 @@ import com.wise.www.basestone.view.network.ResultModel;
 import com.wise.www.tyjcapp.R;
 import com.wise.www.tyjcapp.bean.SystemCaseBean;
 import com.wise.www.tyjcapp.bean.SystemWorkingCaseBean;
+import com.wise.www.tyjcapp.login.LoginActivity;
+import com.wise.www.tyjcapp.login.model.User;
+import com.wise.www.tyjcapp.main.helperClass.sharedPreference.MySharedpreferences;
+import com.wise.www.tyjcapp.main.helperClass.sharedPreference.Protocol;
+import com.wise.www.tyjcapp.main.ortherPage.ServerAddressActivity;
 import com.wise.www.tyjcapp.main.request.ApiService;
 
 import java.util.ArrayList;
@@ -26,18 +32,31 @@ import rx.schedulers.Schedulers;
 
 
 public class SplashActivity extends AppCompatActivity {
+    Bundle bundle;
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            Bundle bundle;
-            if (msg.what == -1) {
-                bundle = null;
-            } else {
-                bundle = msg.getData();
+            switch (msg.what) {
+                case -1:
+                    bundle = null;
+                    MainActivity.start(getBaseContext(), bundle);
+                    finish();
+                    break;
+                case 0:
+                    MainActivity.start(getBaseContext(), bundle);
+                    finish();
+                    break;
+                case 1:
+                    Intent intent = new Intent(SplashActivity.this, ServerAddressActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+                case 2:
+                    LoginActivity.start(SplashActivity.this);
+                    finish();
+                    break;
             }
-            MainActivity.start(getBaseContext(), bundle);
-            finish();
         }
     };
 
@@ -45,12 +64,8 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                getBaseData();
-            }
-        }).start();
+        checkEveryThing();
+
 
     }
 
@@ -82,43 +97,33 @@ public class SplashActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(List<SystemWorkingCaseBean> list) {
-                        Message message = new Message();
-                        Bundle bundle = new Bundle();
+                        bundle = new Bundle();
                         bundle.putParcelableArrayList("systemData", (ArrayList<? extends Parcelable>) list);
-                        message.setData(bundle);
-                        handler.sendMessage(message);
+                        handler.sendEmptyMessage(0);
                     }
                 });
     }
 
-    public void getSysBank(){
-        ApiService.Creator.get().dictDataServlet("Bank")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(new FlatMapResponse<ResultModel<List<SystemWorkingCaseBean>>>())
-                .flatMap(new FlatMapTopRes<List<SystemWorkingCaseBean>>())
-                .subscribe(new Subscriber<List<SystemWorkingCaseBean>>() {
-                    @Override
-                    public void onCompleted() {
+    private void checkEveryThing() {
+        //服务器地址
+        String hostUrl = Protocol.getHostUrl();
+        if (MySharedpreferences.getFirstStatusBoolean()) {
+            if (null == User.getCurrentUser()) {
+                if (hostUrl.isEmpty()) {
+                    handler.sendEmptyMessage(1);
+                    return;
+                } else {
+                    handler.sendEmptyMessage(2);
+                }
+            }
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        handler.sendEmptyMessage(-1);
-                    }
-
-                    @Override
-                    public void onNext(List<SystemWorkingCaseBean> list) {
-                        Message message = new Message();
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList("systemData", (ArrayList<? extends Parcelable>) list);
-                        message.setData(bundle);
-                        handler.sendMessage(message);
-                    }
-                });
+        } else {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    getBaseData();
+                }
+            }).start();
+        }
     }
-
-
 }

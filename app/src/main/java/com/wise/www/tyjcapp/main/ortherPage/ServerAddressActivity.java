@@ -1,5 +1,7 @@
 package com.wise.www.tyjcapp.main.ortherPage;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +18,11 @@ import com.wise.www.tyjcapp.main.request.ApiService;
 
 public class ServerAddressActivity extends AppCompatActivity {
     ActivityServerAddressBinding binding;
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, ServerAddressActivity.class);
+        context.startActivity(starter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,9 @@ public class ServerAddressActivity extends AppCompatActivity {
         String server_url = binding.etServerUrl.getText().toString().trim();
         if (TextUtils.isEmpty(server_url)) {
             Toast.makeText(this, getResources().getString(R.string.toast_server), Toast.LENGTH_SHORT).show();
+            return;
+        }else if(!server_url.endsWith("/")){
+            Toast.makeText(this, getResources().getString(R.string.toast_server_end), Toast.LENGTH_SHORT).show();
             return;
         }
         MySharedpreferences.putServerString(server_url, new Callback() {

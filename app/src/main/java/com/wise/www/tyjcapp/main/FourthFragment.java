@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.wise.www.tyjcapp.R;
 import com.wise.www.tyjcapp.databinding.FragmentFourthBinding;
 import com.wise.www.tyjcapp.login.LoginActivity;
+import com.wise.www.tyjcapp.main.ortherPage.ServerAddressActivity;
 
 public class FourthFragment extends Fragment implements View.OnClickListener {
     FragmentFourthBinding binding;
@@ -30,6 +31,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_fourth, container, false);
         binding.title.setText(R.string.str_seeting);
+        binding.flToService.setOnClickListener(this);
         binding.btnLogOut.setOnClickListener(this);
         return binding.getRoot();
     }
@@ -41,7 +43,9 @@ public class FourthFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_log_out:
                 LoginActivity.start(getContext());
                 break;
-
+            case R.id.fl_to_service:
+                ServerAddressActivity.start(getContext());
+                break;
         }
     }
 }

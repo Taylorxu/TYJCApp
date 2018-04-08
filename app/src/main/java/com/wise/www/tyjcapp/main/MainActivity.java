@@ -4,16 +4,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioGroup;
 
+import com.wise.www.basestone.view.network.FlatMapResponse;
+import com.wise.www.basestone.view.network.FlatMapTopRes;
+import com.wise.www.basestone.view.network.ResultModel;
 import com.wise.www.tyjcapp.R;
 import com.wise.www.tyjcapp.bean.SystemCaseBean;
 import com.wise.www.tyjcapp.bean.SystemWorkingCaseBean;
 import com.wise.www.tyjcapp.databinding.ActivityMainBinding;
+import com.wise.www.tyjcapp.login.LoginActivity;
+import com.wise.www.tyjcapp.main.request.ApiService;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class MainActivity extends AppCompatActivity {
     private MainAdapter mSectionsPagerAdapter;
@@ -22,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static void start(Context context, Bundle bundle) {
         Intent starter = new Intent(context, MainActivity.class);
+        starter.setFlags(FLAG_ACTIVITY_NEW_TASK);
         if (bundle != null)
             starter.putParcelableArrayListExtra(PARAMKEY, bundle.getParcelableArrayList(PARAMKEY));
         context.startActivity(starter);
@@ -89,6 +103,5 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
-
 
 }

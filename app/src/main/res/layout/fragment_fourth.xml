@@ -23,130 +23,38 @@
 
             </FrameLayout>
 
-            <LinearLayout
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
 
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="姓名:"
-                        android:textColor="@color/color_4d"
-                        android:textSize="15sp" />
-
-                </FrameLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/str_service_set"
+                    android:textColor="@color/color_4d"
+                    android:textSize="15sp" />
 
                 <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:id="@+id/fl_to_service"
+                    android:layout_gravity="center_vertical|right"
+                    android:padding="11dp">
 
-                    <TextView
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|right"
-                        android:textColorHint="@color/text_color_jizu_name"
-                        android:textSize="14sp" />
+                        android:background="@drawable/ic_right_arrow"
+                        android:layout_gravity="center"
+                        />
 
                 </FrameLayout>
-            </LinearLayout>
+            </FrameLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="15dp"
-                android:background="@color/color_line" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="工号:"
-                        android:textColor="@color/color_4d"
-                        android:textSize="15sp" />
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|right"
-                        android:textColorHint="@color/text_color_jizu_name"
-                        android:textSize="14sp" />
-
-                </FrameLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="15dp"
-                android:background="@color/color_line" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="所属部门:"
-                        android:textColor="@color/color_4d"
-                        android:textSize="15sp" />
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|right"
-                        android:textColorHint="@color/text_color_jizu_name"
-                        android:textSize="14sp" />
-
-                </FrameLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/color_line" />
 
         </LinearLayout>
 

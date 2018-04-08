@@ -8,7 +8,7 @@ public class BaseUrl {
 
 
     public static String getHost() {
-        String Host = MySharedpreferences.getServerString() + "services/";
+        String Host = MySharedpreferences.getServerString();
         if (Host.indexOf("http://") > -1||Host.indexOf("HTTP://") > -1) {
             return Host;
         } else {

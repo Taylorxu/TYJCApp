@@ -30,6 +30,7 @@ import com.wise.www.tyjcapp.bean.SystemCaseBean;
 import com.wise.www.tyjcapp.bean.SystemWorkingCaseBean;
 import com.wise.www.tyjcapp.databinding.FragmentFirstBinding;
 import com.wise.www.tyjcapp.databinding.ItemFirstFragmentBinding;
+import com.wise.www.tyjcapp.login.LoginActivity;
 import com.wise.www.tyjcapp.main.ortherPage.BankDetailDataActivity;
 import com.wise.www.tyjcapp.main.ortherPage.SearchPageActivity;
 import com.wise.www.tyjcapp.main.request.ApiService;
@@ -60,6 +61,9 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
     public void onAttach(Context context) {
         super.onAttach(context);
         caseBeanList = getActivity().getIntent().getParcelableArrayListExtra(PARAMKEY);
+        if (caseBeanList==null) {
+            getBaseData();
+        }
     }
 
     @Override
@@ -177,6 +181,31 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
 
                         }
                         xAdapter.setList(caseBeanList);
+                    }
+                });
+    }
+
+
+    private void getBaseData() {
+        ApiService.Creator.get().dictDataServlet("BusinessSystem")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new FlatMapResponse<ResultModel<List<SystemWorkingCaseBean>>>())
+                .flatMap(new FlatMapTopRes<List<SystemWorkingCaseBean>>())
+                .subscribe(new Subscriber<List<SystemWorkingCaseBean>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(List<SystemWorkingCaseBean> list) {
+                        caseBeanList = list;
                     }
                 });
     }

@@ -16,6 +16,8 @@ import com.wise.www.tyjcapp.databinding.ActivityLoginBinding;
 import com.wise.www.tyjcapp.main.MainActivity;
 import com.wise.www.tyjcapp.login.presenter.LoginPresenterCompl;
 import com.wise.www.tyjcapp.login.view.ILoginView;
+import com.wise.www.tyjcapp.main.helperClass.sharedPreference.MySharedpreferences;
+import com.wise.www.tyjcapp.main.ortherPage.ServerAddressActivity;
 
 public class LoginActivity extends AppCompatActivity implements ILoginView {
     ActivityLoginBinding loginBinding;
@@ -54,6 +56,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
             loginBinding.account.setEnabled(true);
             loginBinding.password.setEnabled(true);
         } else {
+            MySharedpreferences.setFirstStatusBoolean();
             MainActivity.start(this, null);
             finish();
         }
@@ -80,7 +83,9 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
                 presenterCompl.setProgressBarVisiblity(View.VISIBLE);
                 attemptLogin();
                 break;
-
+            case R.id.tv_net_url:
+                ServerAddressActivity.start(this);
+                break;
         }
 
     }
