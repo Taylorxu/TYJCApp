@@ -33,6 +33,7 @@ import com.wise.www.tyjcapp.bean.MemberTradeBean;
 import com.wise.www.tyjcapp.bean.SystemWorkingCaseBean;
 import com.wise.www.tyjcapp.databinding.FragmentFirstBinding;
 import com.wise.www.tyjcapp.databinding.ItemFirstFragmentBinding;
+import com.wise.www.tyjcapp.main.helperClass.RVItemDecoration;
 import com.wise.www.tyjcapp.main.ortherPage.BankDetailDataActivity;
 import com.wise.www.tyjcapp.main.ortherPage.SearchPageActivity;
 import com.wise.www.tyjcapp.main.request.ApiService;
@@ -70,6 +71,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
     public void onAttach(Context context) {
         super.onAttach(context);
         caseBeanList = getActivity().getIntent().getParcelableArrayListExtra(PARAMKEY);
+        //第一次登录，没有写入服务器地址  写service address-------> 登录--------MainPage---->getBaseData
         if (caseBeanList == null) {
             getBaseData();
         }
@@ -103,13 +105,13 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
             holder.getBinding().textName.setText(bean.getTradeSysName());
             holder.getBinding().textValue.setText(String.valueOf(bean.getTradeSysVolume()));
             if (bean.getTradeSysColour().indexOf("#") > -1) {
+                //为item 背景颜色添加渐变
                 holder.getBinding().linearLayoutRoot.setBackgroundColor(Color.parseColor(bean.getTradeSysColour().toUpperCase()));
                 int startColor = Color.parseColor(bean.getTradeSysColour().toUpperCase());
                 int endColor = Color.parseColor(bean.getTradeSysColour().toUpperCase().replace("#", "#7F"));
                 int colors[] = {startColor, endColor};
                 GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colors);
-                int sdk = android.os.Build.VERSION.SDK_INT;
-                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     holder.getBinding().linearLayoutRoot.setBackgroundDrawable(bg);
                 } else {
                     holder.getBinding().linearLayoutRoot.setBackground(bg);
@@ -118,7 +120,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
 
             int prograss = Math.round(Float.parseFloat(bean.getTradeSysSucRate()));
             holder.getBinding().waveLoadingView.setProgressValue(prograss);
-            holder.getBinding().waveLoadingView.setCenterTitle(bean.getTradeSysSucRate() + "%");
+            holder.getBinding().waveLoadingView.setCenterTitle(bean.getTradeSysSucRate().equals("100.00") ? "100%" : bean.getTradeSysSucRate() + "%");
             holder.getBinding().waveLoadingView.setCenterTitleColor(Color.WHITE);
             holder.getBinding().waveLoadingView.setCenterTitleSize(12f);
             if (bean.getTradeSysColour().indexOf("#") > -1)
@@ -126,12 +128,14 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
             holder.getBinding().waveLoadingView.setBorderWidth(0.5f);
             if (bean.getTradeSysColour().indexOf("#") > -1)
                 holder.getBinding().waveLoadingView.setWaveColor(Color.parseColor(bean.getTradeSysColour().toUpperCase()));
-            /*if (bean.getTradeSysColour().indexOf("#") > -1)
-                holder.getBinding().waveLoadingView.setWaveBgColor(Color.parseColor(bean.getTradeSysColour().toUpperCase()));*/
-
-
         }
     };
+    /**
+     * item 跳转到BankDetailDataActivity 每个系统下的某个银行（或全部）详细环比
+     * TradeBankCode、TradeSysCode 查询参数
+     * SysName title
+     * BankName 界面银行名称
+     */
     XAdapter.OnItemClickListener<SystemWorkingCaseBean, ItemFirstFragmentBinding> itemClickListener = new XAdapter.OnItemClickListener<SystemWorkingCaseBean, ItemFirstFragmentBinding>() {
         @Override
         public void onItemClick(XViewHolder<SystemWorkingCaseBean, ItemFirstFragmentBinding> holder) {
@@ -144,12 +148,16 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
         }
     };
 
+    /**
+     * 银行搜索跳转TextView 展示
+     */
     private void setradebankName() {
         fragmentBinding.textBankSearch.setText(tradebankName);
     }
 
     /**
-     *
+     * 初始化 recycleVIew 、
+     * 查询数据
      */
     private void initListView() {
         createData();
@@ -160,7 +168,10 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
 
     }
 
-
+    /**
+     * 全部 银行 tradeBankCode=-1 ，
+     * 根据 tradeBankCode 参数查询出交易量的数据，在和系统数据集合进行合并
+     */
     private void createData() {
         ApiService.Creator.get().systemStatusServlet(tradeBankCode)
                 .subscribeOn(Schedulers.io())
@@ -197,7 +208,9 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
                 });
     }
 
-
+    /**
+     * 获取系统数据
+     */
     private void getBaseData() {
         ApiService.Creator.get().dictDataServlet("BusinessSystem")
                 .subscribeOn(Schedulers.io())
@@ -222,6 +235,10 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
                 });
     }
 
+    /**
+     * 跳转到银行筛选界面
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -257,6 +274,9 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
         createData();
     }
 
+    /**
+     * 为recycleView 的每一个item 描绘 分割线
+     */
     class RVItemDecoration extends RecyclerView.ItemDecoration {
         public RVItemDecoration(int space, int mDividerHeight) {
             this.space = space;
@@ -308,6 +328,10 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
         }
     }
 
+    /**
+     * 从top排行界面 itemclick ------>mainActivity{refreshByBankCode}-------->FirstFragment
+     *
+     */
     Action1<Notification> action1 = new Action1<Notification>() {
         @Override
         public void call(Notification notification) {

@@ -68,13 +68,4 @@ public class User extends RealmObject{
         });
     }
 
-    public static void logout() {
-        setCurrent(null);
-    }
-
-    public static void login(User user) {
-        setCurrent(user);
-    }
-
-
 }

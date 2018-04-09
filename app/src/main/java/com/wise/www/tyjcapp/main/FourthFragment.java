@@ -37,7 +37,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener {
         binding.title.setText(R.string.str_seeting);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {//<21
             binding.btnLogOut.setBackgroundResource(R.drawable.shape_corners_2_primary);
-        }else{
+        } else {
             binding.btnLogOut.setBackgroundResource(R.drawable.selector_ripple);
         }
         binding.tvVersion.setText(getLocalVersion(getContext()));
@@ -51,6 +51,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btn_log_out:
                 LoginActivity.start(getContext());
+                getActivity().finish();
                 break;
 
         }

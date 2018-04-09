@@ -108,6 +108,10 @@ public class MainActivity extends AppCompatActivity implements SecondFragment.Se
         }
     };
 
+    /**
+     * SecondFragment 监听
+     * @param memberTradeBean
+     */
     @Override
     public void refreshByBankCode(MemberTradeBean memberTradeBean) {
         mainBinding.container.setCurrentItem(0, false);

@@ -64,7 +64,12 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        checkEveryThing();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkEveryThing();
+            }
+        }, 2000);
     }
 
     /**
@@ -106,15 +111,12 @@ public class SplashActivity extends AppCompatActivity {
         //服务器地址
         String hostUrl = Protocol.getHostUrl();
         if (MySharedpreferences.getFirstStatusBoolean()) {
-            if (null == User.getCurrentUser()) {
-                if (hostUrl.isEmpty()) {
-                    handler.sendEmptyMessage(1);
-                    return;
-                } else {
-                    handler.sendEmptyMessage(2);
-                }
+            if (hostUrl.isEmpty()) {
+                handler.sendEmptyMessage(1);
+                return;
+            } else {
+                handler.sendEmptyMessage(2);
             }
-
         } else {
             new Thread(new Runnable() {
                 @Override

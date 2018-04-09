@@ -110,7 +110,8 @@ public class BankDetailDataActivity extends AppCompatActivity implements SwipeRe
                     @Override
                     public void onNext(WrapOnSystemBean bean) {
                         if (null != bean.getCurrent() || null != bean.getHistory()) {
-                            if( binding.tvEmpty.getVisibility()==View.VISIBLE) binding.tvEmpty.setVisibility(View.GONE);
+                            if (binding.tvEmpty.getVisibility() == View.VISIBLE)
+                                binding.tvEmpty.setVisibility(View.GONE);
                             List<OneSystemBean> adapterList = new ArrayList<>();
                             adapterList.add(bean.getCurrent());
                             adapterList.add(bean.getHistory());
@@ -203,6 +204,9 @@ public class BankDetailDataActivity extends AppCompatActivity implements SwipeRe
     @SuppressLint("ResourceAsColor")
     private SpannableString generateCenterSpannableText(int p, String pieChartData) {
         SpannableString s = null;
+        if (pieChartData.equals("100.00")) {
+            pieChartData = "100";
+        }
         s = new SpannableString(pieChartData + "%");
         s.setSpan(new StyleSpan(Typeface.NORMAL), 0, s.length(), 0);
         s.setSpan(new ForegroundColorSpan(mtextColors[p]), 0, s.length(), 0);
