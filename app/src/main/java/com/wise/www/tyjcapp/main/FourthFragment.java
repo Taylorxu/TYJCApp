@@ -9,12 +9,15 @@ import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.wise.www.tyjcapp.R;
 import com.wise.www.tyjcapp.databinding.FragmentFourthBinding;
+import com.wise.www.tyjcapp.databinding.LogOutDialogViewBinding;
 import com.wise.www.tyjcapp.login.LoginActivity;
 import com.wise.www.tyjcapp.main.ortherPage.ServerAddressActivity;
 
@@ -59,21 +62,30 @@ public class FourthFragment extends Fragment implements View.OnClickListener {
     }
 
     public void showDialog() {
-        new AlertDialog.Builder(getContext()).setTitle("提示")
-                .setMessage("是否退出登录?")
-                .setPositiveButton("是", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LoginActivity.start(getContext());
-                        getActivity().finish();
-                    }
-                })
-                .setNegativeButton("否", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        final AlertDialog dialog = builder.create();
+        LogOutDialogViewBinding dialogViewBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.log_out_dialog_view, null, false);
+        dialogViewBinding.btCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialogViewBinding.btEnsure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginActivity.start(getContext());
+                getActivity().finish();
+            }
+        });
 
-                    }
-                }).create().show();
+        dialog.setView(dialogViewBinding.getRoot());
+        dialog.show();
+        Display d = getActivity().getWindowManager().getDefaultDisplay();
+        android.view.WindowManager.LayoutParams p = dialog.getWindow().getAttributes();
+        p.height = (int) (d.getHeight() * 0.25);
+        p.width = (int) (d.getWidth() * 0.7);
+        dialog.getWindow().setAttributes(p);
 
     }
 
