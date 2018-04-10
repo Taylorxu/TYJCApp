@@ -25,18 +25,12 @@ import com.wise.www.tyjcapp.main.request.ApiService;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class MainActivity extends AppCompatActivity implements SecondFragment.SecondFragmentIFlistenter {
     private MainAdapter mSectionsPagerAdapter;
     ActivityMainBinding mainBinding;
     static String PARAMKEY = "systemData";
-    private String bankCode = "-1", bankName = "全部";//变量被secondFragment 传过来的值所代替,服务于 firstFragment
-
     public static void start(Context context, Bundle bundle) {
         Intent starter = new Intent(context, MainActivity.class);
         starter.setFlags(FLAG_ACTIVITY_NEW_TASK);
@@ -110,11 +104,12 @@ public class MainActivity extends AppCompatActivity implements SecondFragment.Se
 
     /**
      * SecondFragment 监听
+     *
      * @param memberTradeBean
      */
     @Override
     public void refreshByBankCode(MemberTradeBean memberTradeBean) {
         mainBinding.container.setCurrentItem(0, false);
-        RxBus.getDefault().post(new Notification(001,0).setExtra(memberTradeBean));
+        RxBus.getDefault().post(new Notification(001, 0).setExtra(memberTradeBean));
     }
 }

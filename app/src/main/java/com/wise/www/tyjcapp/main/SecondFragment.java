@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wise.www.basestone.view.helper.EEMsgToastHelper;
 import com.wise.www.basestone.view.network.FlatMapResponse;
 import com.wise.www.basestone.view.network.FlatMapTopRes;
 import com.wise.www.basestone.view.network.ResultModel;
@@ -127,12 +128,14 @@ public class SecondFragment extends Fragment {
                     public void onError(Throwable e) {
                         e.printStackTrace();
                         binding.refreshLayout.setRefreshing(false);
+                        EEMsgToastHelper.newInstance().selectWitch(e.getMessage());
+                        setEmptyView(true);
                     }
 
                     @Override
                     public void onNext(WrapMemberTradeBean bean) {
+                        setEmptyView(bean == null ? true : false);
                         adapter.setList(bean.getBankList());
-//                        String titleValue=R.string.str_top;
                         binding.title.setText("成员行" + bean.getHour() + "小时内交易量Top");
                         binding.refreshLayout.setRefreshing(false);
 
@@ -150,6 +153,17 @@ public class SecondFragment extends Fragment {
     public interface SecondFragmentIFlistenter {
 
         void refreshByBankCode(MemberTradeBean data);
+    }
+
+    private void setEmptyView(boolean isEmpty) {
+        if (isEmpty) {
+            binding.contentAnnounceList.setVisibility(View.GONE);
+            binding.tvEmptyView.setVisibility(View.VISIBLE);
+            binding.tvEmptyView.setText(getResources().getString(R.string.str_empty_data1));
+        } else {
+            binding.contentAnnounceList.setVisibility(View.VISIBLE);
+            binding.tvEmptyView.setVisibility(View.GONE);
+        }
     }
 
     @Override

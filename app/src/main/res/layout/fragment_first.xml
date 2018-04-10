@@ -54,11 +54,26 @@
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/content_case"
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/content_case"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:id="@+id/tv_empty_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/text_color_jizu_name"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </FrameLayout>
         </android.support.v4.widget.SwipeRefreshLayout>
 
     </android.support.design.widget.CoordinatorLayout>

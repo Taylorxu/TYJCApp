@@ -1,5 +1,7 @@
 package com.wise.www.tyjcapp.main;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -189,10 +191,12 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
                         e.printStackTrace();
                         EEMsgToastHelper.newInstance().selectWitch(e.getMessage());
                         fragmentBinding.refreshLayout.setRefreshing(false);
+                        setEmptyView(true);
                     }
 
                     @Override
                     public void onNext(List<SystemWorkingCaseBean> list) {
+                        setEmptyView(list.size() == 0 ? true : false);
                         for (SystemWorkingCaseBean bank : list) {
                             for (SystemWorkingCaseBean beanSys : caseBeanList) {
                                 if (bank.getTradeSysCode().equals(beanSys.getTradeSysCode())) {
@@ -204,6 +208,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
                         }
                         xAdapter.setList(caseBeanList);
                         fragmentBinding.refreshLayout.setRefreshing(false);
+
                     }
                 });
     }
@@ -226,6 +231,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        EEMsgToastHelper.newInstance().selectWitch(e.getMessage());
                     }
 
                     @Override
@@ -237,6 +243,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
 
     /**
      * 跳转到银行筛选界面
+     *
      * @param v
      */
     @Override
@@ -272,6 +279,17 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
     @Override
     public void onRefresh() {
         createData();
+    }
+
+    private void setEmptyView(boolean isEmpty) {
+        if (isEmpty) {
+            fragmentBinding.contentCase.setVisibility(View.GONE);
+            fragmentBinding.tvEmptyView.setVisibility(View.VISIBLE);
+            fragmentBinding.tvEmptyView.setText(getResources().getString(R.string.str_empty_data1));
+        } else {
+            fragmentBinding.tvEmptyView.setVisibility(View.GONE);
+            fragmentBinding.contentCase.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -330,7 +348,6 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
 
     /**
      * 从top排行界面 itemclick ------>mainActivity{refreshByBankCode}-------->FirstFragment
-     *
      */
     Action1<Notification> action1 = new Action1<Notification>() {
         @Override

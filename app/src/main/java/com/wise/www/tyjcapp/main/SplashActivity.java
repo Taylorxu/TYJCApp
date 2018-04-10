@@ -96,6 +96,7 @@ public class SplashActivity extends AppCompatActivity {
                     public void onError(Throwable e) {
                         e.printStackTrace();
                         handler.sendEmptyMessage(-1);
+                        EEMsgToastHelper.newInstance().selectWitch(e.getMessage());
                     }
 
                     @Override

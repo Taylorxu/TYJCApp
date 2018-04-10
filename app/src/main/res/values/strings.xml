@@ -38,4 +38,5 @@
     <string name="toast_server_save">保存成功</string>
     <string name="toast_server_fail">保存失败</string>
     <string name="str_empty_data">暂无数据</string>
+    <string name="str_empty_data1">暂无数据\n下拉刷新</string>
 </resources>

@@ -65,7 +65,6 @@
                     android:text="asdfasd"
                     android:textColor="@color/text_color_jizu_name"
                     android:textSize="16sp"
-                    android:visibility="gone"
                     />
             </FrameLayout>
         </android.support.v4.widget.SwipeRefreshLayout>
