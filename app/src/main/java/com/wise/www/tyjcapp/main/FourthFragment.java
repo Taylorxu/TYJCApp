@@ -1,6 +1,8 @@
 package com.wise.www.tyjcapp.main;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -50,11 +52,29 @@ public class FourthFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_log_out:
-                LoginActivity.start(getContext());
-                getActivity().finish();
+                showDialog();
                 break;
 
         }
+    }
+
+    public void showDialog() {
+        new AlertDialog.Builder(getContext()).setTitle("提示")
+                .setMessage("是否退出登录?")
+                .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        LoginActivity.start(getContext());
+                        getActivity().finish();
+                    }
+                })
+                .setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create().show();
+
     }
 
     public static String getLocalVersion(Context ctx) {
