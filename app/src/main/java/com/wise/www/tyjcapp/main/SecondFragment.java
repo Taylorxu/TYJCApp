@@ -42,7 +42,7 @@ public class SecondFragment extends Fragment {
     FragmentSecondBinding binding;
     SecondFragmentIFlistenter fragmentIFlistenter;
     private int[] colorspan;
-
+    private List<MemberTradeBean> bankList;
 
     public static SecondFragment newInstance() {
         SecondFragment secondFragment = new SecondFragment();
@@ -129,13 +129,14 @@ public class SecondFragment extends Fragment {
                         e.printStackTrace();
                         binding.refreshLayout.setRefreshing(false);
                         EEMsgToastHelper.newInstance().selectWitch(e.getMessage());
-                        setEmptyView(true);
+                        if (null == bankList) setEmptyView(true);
                     }
 
                     @Override
                     public void onNext(WrapMemberTradeBean bean) {
+                        bankList = bean.getBankList();
                         setEmptyView(bean == null ? true : false);
-                        adapter.setList(bean.getBankList());
+                        adapter.setList(bankList);
                         binding.title.setText("成员行" + bean.getHour() + "小时内交易量Top");
                         binding.refreshLayout.setRefreshing(false);
 

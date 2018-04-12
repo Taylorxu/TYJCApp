@@ -59,6 +59,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
             loginBinding.account.setEnabled(true);
             loginBinding.password.setEnabled(true);
         } else {
+            Toast.makeText(this,"登陆成功",Toast.LENGTH_SHORT).show();
             MySharedpreferences.setFirstStatusBoolean();
             MainActivity.start(this, null);
             finish();

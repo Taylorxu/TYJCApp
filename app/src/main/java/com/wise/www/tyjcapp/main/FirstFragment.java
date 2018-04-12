@@ -162,7 +162,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
      * 查询数据
      */
     private void initListView() {
-        createData();
+        if (null != caseBeanList) createData();
         GridLayoutManager layoutmanager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         fragmentBinding.contentCase.setLayoutManager(layoutmanager);
         fragmentBinding.contentCase.setAdapter(xAdapter);
@@ -191,12 +191,11 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
                         e.printStackTrace();
                         EEMsgToastHelper.newInstance().selectWitch(e.getMessage());
                         fragmentBinding.refreshLayout.setRefreshing(false);
-                        setEmptyView(true);
                     }
 
                     @Override
                     public void onNext(List<SystemWorkingCaseBean> list) {
-                        setEmptyView(list.size() == 0 ? true : false);
+                        if (null == caseBeanList) return;
                         for (SystemWorkingCaseBean bank : list) {
                             for (SystemWorkingCaseBean beanSys : caseBeanList) {
                                 if (bank.getTradeSysCode().equals(beanSys.getTradeSysCode())) {
@@ -225,18 +224,22 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
                 .subscribe(new Subscriber<List<SystemWorkingCaseBean>>() {
                     @Override
                     public void onCompleted() {
-
+                        if (null != caseBeanList) createData();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
                         EEMsgToastHelper.newInstance().selectWitch(e.getMessage());
+                        if (null == caseBeanList) setEmptyView(true);
+                        fragmentBinding.refreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void onNext(List<SystemWorkingCaseBean> list) {
+                        setEmptyView(list.size() == 0 ? true : false);
                         caseBeanList = list;
+                        fragmentBinding.refreshLayout.setRefreshing(false);
                     }
                 });
     }
@@ -278,7 +281,8 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
 
     @Override
     public void onRefresh() {
-        createData();
+        getBaseData();
+
     }
 
     private void setEmptyView(boolean isEmpty) {

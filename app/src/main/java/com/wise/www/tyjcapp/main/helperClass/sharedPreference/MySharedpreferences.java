@@ -70,12 +70,12 @@ public class MySharedpreferences {
      * @return
      */
     public static boolean getFirstStatusBoolean() {
-        boolean status = statusSp.getBoolean(Constant.ISFIRST, true);
+        boolean status = statusSp.getBoolean(Constant.ISFIRST,true);
         return status;
     }
 
     public static void setFirstStatusBoolean() {
-        statusSp.edit().putBoolean(Constant.ISFIRST, false);
+        statusSp.edit().putBoolean(Constant.ISFIRST, false).commit();
 
     }
 
