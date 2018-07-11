@@ -1,0 +1,70 @@
+[
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_bank_detail_data.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\activity_bank_detail_data.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_search_page.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\activity_search_page.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\item_first_fragment.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\item_first_fragment.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\item_member_trade_top.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\item_member_trade_top.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_main.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\item_warning_list.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\item_warning_list.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\log_out_dialog_view.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\log_out_dialog_view.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_login.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_third.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\fragment_third.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_server_address.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\activity_server_address.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_first.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\fragment_first.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_warning_history_list.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\fragment_warning_history_list.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_warning_list.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\fragment_warning_list.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\item_search_bank.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\item_search_bank.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_second.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\fragment_second.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_fourth.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\fragment_fourth.xml"
+    },
+    {
+        "merged": "F:\\TYJCApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\item_one_bank.xml",
+        "source": "F:\\TYJCApp\\app\\src\\main\\res\\layout\\item_one_bank.xml"
+    }
+]
